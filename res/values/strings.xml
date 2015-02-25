@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quran For My Android</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_showList">Show List of Suras</string>
+    <string name="action_copyAll">Copy Text To Clipboard</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_showInfo">Info</string>
+    <string name="action_tryExit">Exit</string>
+    <string name="button_prev">prev</string>
+    <string name="button_next">next</string>
+    <string name="hint_commandText">Enter verse No.</string>
+    <string name="title_textSelection">Text Selection</string>
+    <string name="title_editor_exit">Exiting Editor</string>
+    <string name="text_exit_confirmation">Are you sure you want to Exit?</string>
+    <string name="button_suraSelect">OK</string>
+    
+    
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_info">Info</string>
+    
+    <string name="text_info">
+        Quran For My Android" is a simple app that displays Quran text or translation.
+        
+        \n\nYou can enter verse no. in these forms:
+        \n\'Sura No.\':\'Start ayah No.\':\'End ayah No.\' (Example: 2:182:185)
+        \nOr, simply, \'Sura No.\':\'Ayah No\' (Example: 2:182)
+        
+        \n\nQuran texts had been collected from tanzil.quran.com
+        \nEnglish translation follows Yusuf Ali\'s translation of Quran.(collected from zekr.org)
+        \nBengali translation follows translation of Muhiuddin Khan.(collected from zekr.org)
+        \nWord by Word translations and transliterations had been collected from corpus.quran.com
+        
+        \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com</string>
+
+    <string-array name="array_textSelection">
+        <item>Arabic Text</item>
+        <item>English Text</item>
+        <item>Bengali Text</item>
+        <item>Word By Word</item>
+    </string-array>
+    <string-array name="array_seletionValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="title_fontSize">Font Size</string>
+
+    <string-array name="array_fontSizeTexts">
+
+        <!--
+	    <item >0</item>
+	    <item >1</item>
+	    <item >2</item>
+	    <item >3</item>
+	    <item >4</item>
+	    <item >5</item>
+        -->
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+    </string-array>
+
+</resources>

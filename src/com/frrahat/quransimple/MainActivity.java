@@ -240,7 +240,7 @@ public class MainActivity extends Activity {
 		String parts[]=input.split(":");
 		if(parts.length<2)
 		{
-			Toast.makeText(this, "invalid input", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "invalid input", Toast.LENGTH_SHORT).show();
 			return null;
 		}
 		
@@ -264,7 +264,7 @@ public class MainActivity extends Activity {
 		//no need to recheck here
 		if(endAyahNo<startAyahNo)
 		{
-			Toast.makeText(this, "Error: start is smaller than end", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Error: start is smaller than end", Toast.LENGTH_SHORT).show();
 			return null;
 		}
 		
@@ -309,7 +309,7 @@ public class MainActivity extends Activity {
 		if(selectedTextIndex==3)//word info
 		{
 			if(currentInputCommand.totalToPrint!=1){
-				Toast.makeText(this, "Can show only a single Ayah\n in Word by Word Text Mode", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Can show only a single Ayah\n in Word by Word Text Mode", Toast.LENGTH_SHORT).show();
 			}
 			printAyah(currentInputCommand.ayah);
 		}
@@ -367,7 +367,7 @@ public class MainActivity extends Activity {
 				commandText.setSelection(commandText.getText().length());
 			}
 			else
-				Toast.makeText(getBaseContext(), "Reached to first ayah.", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Reached to first ayah.", Toast.LENGTH_SHORT).show();
 		}
 		
 		public void proceedToNextAyah()

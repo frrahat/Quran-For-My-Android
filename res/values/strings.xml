@@ -24,15 +24,16 @@
         Quran For My Android" is a simple app that displays Quran text or translation.
         
         \n\nYou can enter verse no. in these forms:
-        \n\'Sura No.\':\'Start ayah No.\':\'End ayah No.\' (Example: 2:182:185)
-        \nOr, simply, \'Sura No.\':\'Ayah No\' (Example: 2:182)
+        \n\"Sura No.\":\"Start ayah No.\":\"End ayah No.\" (Example: 2:182:185)
+        \nOr, simply, \"Sura No.\":\"Ayah No\" (Example: 2:182)
         
-        \n\nQuran texts had been collected from tanzil.quran.com
+        \n\nQuran texts had been collected from tanzil.net
         \nEnglish translation follows Yusuf Ali\'s translation of Quran.(collected from zekr.org)
         \nBengali translation follows translation of Muhiuddin Khan.(collected from zekr.org)
         \nWord by Word translations and transliterations had been collected from corpus.quran.com
         
-        \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com</string>
+        \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com
+</string>
 
     <string-array name="array_textSelection">
         <item>Arabic Text</item>
@@ -57,7 +58,10 @@
 	    <item >2</item>
 	    <item >3</item>
 	    <item >4</item>
-	    <item >5</item>
+	    <item >5</item>
+
+
+
         -->
         <item>6</item>
         <item>7</item>

@@ -9,38 +9,17 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.frrahat.quransimple.MainActivity"
-    android:background="@android:color/holo_orange_light" >
+    android:background="#404040" >
     
-    <LinearLayout
+    <EditText
+        android:id="@+id/editText_commandText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/button_prev"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/button_prev" 
-            android:gravity="center"/>
-
-        <EditText
-            android:id="@+id/editText_commandText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:hint="@string/hint_commandText" 
-            android:inputType="time"
-
-            android:textCursorDrawable="@drawable/cursor_color" />
-
-        <Button
-            android:id="@+id/button_next"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/button_next" 
-            android:gravity="center"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_commandText"
+        android:textColorHint="@android:color/holo_green_dark"
+        android:textColor="@android:color/holo_orange_dark"
+        android:inputType="time"
+        android:textCursorDrawable="@drawable/cursor_color" />
     
     <ScrollView
         android:id="@+id/scrollView"
@@ -71,5 +50,28 @@
         </LinearLayout>
     </ScrollView>
 
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button_prev"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/button_prev" 
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/button_next"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/button_next" 
+            android:gravity="center"/>
+    </LinearLayout>
     
 </LinearLayout>

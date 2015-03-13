@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), "No prevoious input", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "No previous input", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), "No prevoious input", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "No previous input", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

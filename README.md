@@ -1,5 +1,5 @@
 # Quran-For-My-Android
-Assalamu Alaikum.
+Assalamu 'Alaikum.
 
 Quran For My Android" is a simple app that displays Quran text or word by word translation.
 
@@ -13,5 +13,7 @@ Bengali translation follows translation of Muhiuddin Khan.(collected from http:/
 
 Arabic quran text is from http://tanzil.net and distributed under the terms of a Creative Commons Attribution 3.0 License.
 - Permission is granted to copy and distribute verbatim copies of this text, but CHANGING IT IS NOT ALLOWED.
+
+
 
 The sources (websites) of the text files ( such as Quran text, Translation text and Word Information text) should be clearly indicated if those files are used in any website or application.

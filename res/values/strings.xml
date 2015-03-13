@@ -12,7 +12,7 @@
     <string name="button_next">next</string>
     <string name="hint_commandText">Enter verse No.</string>
     <string name="title_textSelection">Text Selection</string>
-    <string name="title_editor_exit">Exit Confirmation</string>
+    <string name="title_editor_exit">Exiting Confirmation</string>
     <string name="text_exit_confirmation">Are you sure you want to Exit?</string>
     <string name="button_suraSelect">OK</string>
     

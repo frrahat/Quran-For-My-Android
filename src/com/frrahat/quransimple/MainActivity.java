@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//Full Screen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE); This line was breaking ActionBar in full screen
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		//------------*/
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), "No prevoious input", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "No previous input", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
-					Toast.makeText(getBaseContext(), "No prevoious input", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "No previous input", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <ListPreference
+        android:defaultValue="15"
+        android:dialogTitle="@string/title_fontSize"
+        android:entries="@array/array_fontSizeTexts"
+        android:entryValues="@array/array_fontSizeTexts"
+        android:key="pref_font_size"
+        android:title="@string/title_fontSize" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:dialogTitle="@string/title_textSelection"
+        android:entries="@array/array_textSelection"
+        android:entryValues="@array/array_seletionValue"
+        android:key="pref_text_selection"
+        android:title="@string/title_textSelection" />
+    
+    <ListPreference
+        android:defaultValue="10"
+        android:dialogTitle="@string/title_maxSearchCount"
+        android:entries="@array/array_maxSearchCount"
+        android:entryValues="@array/array_maxSearchCount"
+        android:key="pref_maxSearchCount"
+        android:title="@string/title_maxSearchCount" />
+    
+    <CheckBoxPreference 
+        android:defaultValue="1"
+        android:key="pref_showTextSelection"
+        android:title="@string/title_showTextSelectionOnStart"/>
+    
+    <CheckBoxPreference 
+        android:defaultValue="1"
+        android:key="pref_confirmExit"
+        android:title="@string/title_confirmBeforeExit"/>
+    
+</PreferenceScreen>

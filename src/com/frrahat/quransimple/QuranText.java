@@ -163,7 +163,7 @@ public class QuranText {
 	    
 	    while (pos < queryLength){
 	        //(first case: the substring continues)
-	        if (query.charAt(pos-1) == query.charAt(cnd)){
+	        if (areCharsEqualIgnoreCase(query.charAt(pos-1) , query.charAt(cnd))){
 	            cnd++;
 	        	Table[pos] = cnd;
 	        	pos++;
@@ -198,12 +198,12 @@ public class QuranText {
 	}
 	
 
-	private boolean areCharsEqualIgnoreCase(char a, char b) {
-		if (a < 'a')
-			a = (char) ('a' + 'A' - a);
+	private boolean areCharsEqualIgnoreCase(char a, char b) {//uppering cases
+		if (a > 'Z')//lowercase
+			a = (char) ('A' + a - 'a');//uppercase
 
-		if (b < 'a')
-			b = (char) ('a' + 'A' - b);
+		if (b > 'Z')//lowercase
+			b = (char) ('A' + b - 'a');//uppercase
 
 		if (a == b)
 			return true;

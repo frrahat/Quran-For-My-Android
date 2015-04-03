@@ -4,7 +4,8 @@
     <string name="app_name">Quran For My Android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_showList">Show List of Suras</string>
-    <string name="action_copyAll">Copy Text To Clipboard</string>
+    <string name="action_copyAll">Copy The Texts To Clipboard</string>
+    <string name="action_changeSecondaryText">Change Secondary Text</string>
     <string name="action_settings">Settings</string>
     <string name="action_showInfo">Info</string>
     <string name="action_tryExit">Exit</string>
@@ -13,6 +14,7 @@
     <string name="hint_commandText">Enter verse No.</string>
     <string name="hint_commandTextToSearch">Enter Text To Search</string>
     <string name="title_textSelection">Text Selection</string>
+    <string name="title_scdndryTxtSelection">Secondary Text Selection</string>
 
     <string name="title_editor_exit">Exiting App</string>
 
@@ -28,19 +30,22 @@
     <string name="text_info">
         Quran For My Android" is a simple app that displays Quran text or translation.
         
+        \nYou have to enter verse no. to display the texts.
         \n\nYou can enter verse no. in these forms:
         \n\"Sura No.\":\"Start ayah No.\":\"End ayah No.\" (Example: 2:182:185)
         \nOr, simply, \"Sura No.\":\"Ayah No\" (Example: 2:182)
         
-        \n\nFor searching a string in English translation text,
+        \n\nFor Searching a string in the whole English translation text,
         \nsimply long press on the textfield, and search mode will be enabled.
         \nThen simply enter your target text in the textfield to search.
         
         \n\nYou can do ranged search also. To make a search from sura_no. a to sura_no. b,
-        \nEnter [a,b] \'Target Text\'
+        \nwhile in search mode, Enter [a,b] \'Target Text\'
         \nExample: [1,114] Paradise
         
-
+		\n\nWhen a large number of ayahs are distributed in different pages, some pages can
+		be skipped simply by pressing long the \'next\' or \'prev\' button.\n
+		     
         \n\nQuran texts had been collected from tanzil.net
         \nEnglish translation follows Yusuf Ali\'s translation of Quran.(collected from zekr.org)
         \nBengali translation follows translation of Muhiuddin Khan.(collected from zekr.org)
@@ -127,23 +132,41 @@
     <string name="title_maxSearchCount">Max Search Count</string>
     
     <string-array name="array_maxSearchCount">
-        <item >10</item>
-	    <item >20</item>
-	    <item >30</item>
-	    <item >40</item>
-	    <item >50</item>
-	    <item >75</item>
+        
         <item >100</item>
-        <item >150</item>
-        <item >200</item>
-        <item >300</item>
-        <item >400</item>
         <item >500</item>
         <item >1000</item>
         <item >5000</item>
+        <item >10000</item>
+        <item >30000</item>
+
     </string-array>
     
     <string name="title_showTextSelectionOnStart">Text Selection On Start</string>
     <string name="title_confirmBeforeExit">Confirm Before Exit</string>
+    
+    <string-array name="array_maxAyahInPage">
+        
+        <item >5</item>
+        <item >10</item>
+        <item >15</item>
+        <item >20</item>
+        <item >25</item>
+        <item >30</item>
+
+    </string-array>
+    
+    <string name="title_maxAyahInPage">Max Ayah In A Page</string>
+    
+    <string name="title_pgsToSkpOnLClick">No. Of Pages To Skip On Long Click</string>
+    <string-array name="array_pgsToSkpOnLClick">
+        <item >5</item>
+        <item >10</item>
+        <item >20</item>
+        <item >25</item>
+        <item >30</item>
+        <item >50</item>
+    </string-array>
+    
 
 </resources>

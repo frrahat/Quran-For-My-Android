@@ -275,8 +275,7 @@ public class MainActivity extends Activity {
 				Ayah ayah = new Ayah(suraNum - 1, 0);
 				CUR_INPUT_COMMAND = new InputCommand(ayah, 1);
 				mainText.setText("");
-				printAyah(ayah);
-				commandText.setText(ayah.toString());
+				printSingleAyah(ayah);
 				// send cursor to the end
 				commandText.setSelection(commandText.getText().length());
 			}
@@ -414,15 +413,16 @@ public class MainActivity extends Activity {
 		int totalToPrint = endAyahNo - startAyahNo + 1;
 		Ayah inputAyah = new Ayah(suraNo - 1, startAyahNo - 1);
 
-		// when limiting case happens
-		commandText.setText(inputAyah.toString());
-		// send cursor to the end
-		commandText.setSelection(commandText.getText().length());
-
 		return new InputCommand(inputAyah, totalToPrint);
 	}
 
-	private void printAyah(Ayah ayah) {
+	private void printSingleAyah(Ayah ayah) {
+		
+		mainText.setText("");
+		commandText.setText(ayah.toString());
+		// send cursor to the end
+		commandText.setSelection(commandText.getText().length());
+		
 		if (SELECTED_TEXT_INDEX == 3)// word info
 		{
 			if (!WordInfoLoader.isLoadingCompleted) {
@@ -461,16 +461,29 @@ public class MainActivity extends Activity {
 						"Can show only a single Ayah\n in Word by Word Text Mode",
 						Toast.LENGTH_SHORT).show();
 			}
-			if (CUR_INPUT_COMMAND.inputMode == InputMode.MODE_VERSE)
-				printAyah(CUR_INPUT_COMMAND.ayah);
-		} else {// other text
+			else if (CUR_INPUT_COMMAND.inputMode == InputMode.MODE_VERSE)
+				printSingleAyah(CUR_INPUT_COMMAND.ayah);
+		} 
+		else {// other text
 				// single ayah printing mode
 				// only one single ayah have to be printed
 			if (CUR_INPUT_COMMAND.inputMode == InputMode.MODE_VERSE
 					&& CUR_INPUT_COMMAND.totalToPrint == 1) {
-				printAyah(CUR_INPUT_COMMAND.ayah);
-			} else
+				printSingleAyah(CUR_INPUT_COMMAND.ayah);
+			} 
+			else{
+				
+				if(CUR_INPUT_COMMAND.inputMode==InputMode.MODE_VERSE){
+					commandText.setText(CUR_INPUT_COMMAND.ayah.toString()+
+							"-"+
+							Integer.toString(CUR_INPUT_COMMAND.totalToPrint+
+									CUR_INPUT_COMMAND.ayah.ayahIndex));
+					// send cursor to the end
+					commandText.setSelection(commandText.getText().length());
+				}
+				
 				runOnUiThread(new AyahPrinterRunnable());
+			}
 		}
 	}
 
@@ -628,12 +641,8 @@ public class MainActivity extends Activity {
 				Ayah prevAyah = ayah.getPrevAyah();
 				if (prevAyah != null) {
 					ayah = prevAyah;
-					commandText.setText(ayah.toString());
-					// send cursor to the end
-					commandText.setSelection(commandText.getText().length());
 
-					mainText.setText("");
-					printAyah(CUR_INPUT_COMMAND.ayah);
+					printSingleAyah(CUR_INPUT_COMMAND.ayah);
 				} else
 					Toast.makeText(getBaseContext(), "Reached to first ayah.",
 							Toast.LENGTH_SHORT).show();
@@ -667,12 +676,8 @@ public class MainActivity extends Activity {
 				Ayah nextAyah = ayah.getNexTAyah();
 				if (nextAyah != null) {
 					ayah = nextAyah;
-					commandText.setText(ayah.toString());
-					// send cursor to the end
-					commandText.setSelection(commandText.getText().length());
 
-					mainText.setText("");
-					printAyah(CUR_INPUT_COMMAND.ayah);
+					printSingleAyah(CUR_INPUT_COMMAND.ayah);
 				} else
 					Toast.makeText(getBaseContext(), "Reached to last ayah.",
 							Toast.LENGTH_SHORT).show();
@@ -784,7 +789,7 @@ public class MainActivity extends Activity {
 		}
 		//default value is "No Secondary Text" that is 3 or -1
 		SECONDARY_TEXT_INDEX=Integer.parseInt(sharedPrefs.getString(
-				"pref_scndryTxtIndex", "-1"));
+				"pref_scndryTxtIndex", "3"));
 
 		if(SECONDARY_TEXT_INDEX==3)
 			SECONDARY_TEXT_INDEX=-1;

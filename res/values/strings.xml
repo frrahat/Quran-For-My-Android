@@ -152,7 +152,7 @@
 
     </string-array>
     
-    <string name="title_showTextSelectionOnStart">Text Selection On Start</string>
+    <string name="title_showTextSelectionOnStart">Choose Primary Text On Start</string>
     <string name="title_confirmBeforeExit">Confirm Before Exit</string>
     
     <string-array name="array_maxAyahInPage">

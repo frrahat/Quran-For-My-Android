@@ -18,6 +18,14 @@
         android:title="@string/title_textSelection" />
     
     <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="@string/title_scdndryTxtSelection"
+        android:entries="@array/array_scdndryTxtSlctn"
+        android:entryValues="@array/array_seletionValue"
+        android:key="pref_scdndryTxtIndex"
+        android:title="@string/title_scdndryTxtSelection" />
+    
+    <ListPreference
         android:defaultValue="5000"
         android:dialogTitle="@string/title_maxSearchCount"
         android:entries="@array/array_maxSearchCount"

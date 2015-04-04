@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -304,9 +305,6 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(this, InfoActivity.class);
 			this.startActivity(intent);
 			return true;
-		} else if (id == R.id.action_changeSecondaryText) {
-			showScndryTxtSltctnDialog();
-			return true;
 		}else if (id == R.id.action_tryExit) {
 			tryExitApp();
 			return true;
@@ -337,9 +335,10 @@ public class MainActivity extends Activity {
 				int indexOfBracketClosed = input.indexOf(']');
 				String rangeText = input.substring(1, indexOfBracketClosed);
 
-				// ',','-' and space are acceptable
+				// ',','-',':' and space are acceptable
 				rangeText = rangeText.replace(",", " ");
 				rangeText = rangeText.replace("-", " ");
+				rangeText = rangeText.replace(":", " ");
 				String parts[] = rangeText.split(" ");
 
 				try {
@@ -352,9 +351,9 @@ public class MainActivity extends Activity {
 
 					if (input.length() > indexOfBracketClosed + 1) {
 						input = input.substring(indexOfBracketClosed + 1);
-						// remove a formal bracket from the query string
+						// remove a formal space from the query string
 						if (input.charAt(0) == ' ')
-							input.substring(1);
+							input=input.substring(1);
 					} else {
 						Toast.makeText(getBaseContext(),
 								"Target String is null", Toast.LENGTH_SHORT)
@@ -400,7 +399,7 @@ public class MainActivity extends Activity {
 			if (parts.length > 2)
 				endAyahNo = Integer.parseInt(parts[2]);
 		} catch (NumberFormatException e) {
-			Toast.makeText(this, "invalid input", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "invalid input", Toast.LENGTH_SHORT).show();
 			return null;
 		}
 
@@ -441,11 +440,12 @@ public class MainActivity extends Activity {
 			else {
 				mainText.append("Couldn't Load Selected Text File\n");
 			}
-			if(SECONDARY_TEXT_INDEX!=-1 && allQuranTexts[SECONDARY_TEXT_INDEX]!=null){
-				mainText.append("\n[" + ayah.toString() + "] "
-						+ allQuranTexts[SECONDARY_TEXT_INDEX].getQuranText(ayah)
-						+ "\n");
-			}
+		}
+		
+		if(SECONDARY_TEXT_INDEX!=-1 && allQuranTexts[SECONDARY_TEXT_INDEX]!=null){
+			mainText.append("\n[" + ayah.toString() + "] "
+					+ allQuranTexts[SECONDARY_TEXT_INDEX].getQuranText(ayah)
+					+ "\n");
 		}
 
 		scrollToTop();
@@ -641,7 +641,7 @@ public class MainActivity extends Activity {
 			// else if(inputMode==InputMode.MODE_SEARCH){
 			else {
 				Toast.makeText(getBaseContext(), "Reached to first page.",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 
 		}
@@ -675,11 +675,11 @@ public class MainActivity extends Activity {
 					printAyah(CUR_INPUT_COMMAND.ayah);
 				} else
 					Toast.makeText(getBaseContext(), "Reached to last ayah.",
-							Toast.LENGTH_LONG).show();
+							Toast.LENGTH_SHORT).show();
 			}// else if(inputMode==InputMode.MODE_SEARCH){
 			else {
 				Toast.makeText(getBaseContext(), "Reached to last page.",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 
@@ -766,6 +766,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	//TODO, this is a marker for update pref function
 	private void updateFromPrefs() {
 		mainText.setTextSize(Float.parseFloat(sharedPrefs.getString(
 				"pref_font_size", "15")));
@@ -781,7 +782,25 @@ public class MainActivity extends Activity {
 			WordInfoLoader.returnToInitialState();
 			System.gc();
 		}
+		//default value is "No Secondary Text" that is 3 or -1
+		SECONDARY_TEXT_INDEX=Integer.parseInt(sharedPrefs.getString(
+				"pref_scdndryTxtIndex", "-1"));
 
+		if(SECONDARY_TEXT_INDEX==3)
+			SECONDARY_TEXT_INDEX=-1;
+		
+		else if(SECONDARY_TEXT_INDEX==SELECTED_TEXT_INDEX){
+			Toast.makeText(this,
+					"Primary Text and Secondary Text are same.\nChange Secondary Text",
+					Toast.LENGTH_LONG).show();
+			
+			SECONDARY_TEXT_INDEX=-1;
+		}
+		else{
+			loadTextFile(SECONDARY_TEXT_INDEX);
+		}
+
+		
 		MAX_SEARCH_COUNT = Integer.parseInt(sharedPrefs.getString(
 				"pref_maxSearchCount", "5000"));
 
@@ -880,7 +899,7 @@ public class MainActivity extends Activity {
 			if ((k >= '\u0610' && k <= '\u0615')
 					|| (k >= '\u06D6' && k <= '\u06ED')) {
 				wordIndexToDisplay++;
-				text += "\n\n";
+				text += "\n--------\n\n";
 				continue;
 			}
 			// waqf checked
@@ -900,7 +919,8 @@ public class MainActivity extends Activity {
 			wordInfoIndexToDisplay++;
 			wordIndexToDisplay++;
 		}
-
+		
+		text += "\n--------\n";
 		mainText.append(text);
 	}
 
@@ -1001,7 +1021,7 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	private void showScndryTxtSltctnDialog() {
+	/*private void showScndryTxtSltctnDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 		final int selectedIndex[] = { -1 };
@@ -1056,5 +1076,5 @@ public class MainActivity extends Activity {
 				});
 
 		builder.create().show();
-	}
+	}*/
 }

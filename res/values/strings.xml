@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_showList">Show List of Suras</string>
     <string name="action_copyAll">Copy The Texts To Clipboard</string>
-    <string name="action_changeSecondaryText">Change Secondary Text</string>
     <string name="action_settings">Settings</string>
     <string name="action_showInfo">Info</string>
     <string name="action_tryExit">Exit</string>
@@ -13,8 +12,7 @@
     <string name="button_next">next</string>
     <string name="hint_commandText">Enter verse No.</string>
     <string name="hint_commandTextToSearch">Enter Text To Search</string>
-    <string name="title_textSelection">Text Selection</string>
-    <string name="title_scdndryTxtSelection">Secondary Text Selection</string>
+
 
     <string name="title_editor_exit">Exiting App</string>
 
@@ -54,12 +52,24 @@
         \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com
 </string>
 
+    <string name="title_textSelection">Primary Text Selection</string>
+    <string name="title_scdndryTxtSelection">Secondary Text Selection</string>
+    
     <string-array name="array_textSelection">
         <item>Arabic Text</item>
         <item>English Text</item>
         <item>Bengali Text</item>
         <item>Word By Word</item>
     </string-array>
+ 
+     <!-- word by word is replaced by No secondary text -->   
+	<string-array name="array_scdndryTxtSlctn">
+        <item>Arabic Text</item>
+        <item>English Text</item>
+        <item>Bengali Text</item>
+        <item>No Secondary Text</item>
+    </string-array>
+    
     <string-array name="array_seletionValue">
         <item>0</item>
         <item>1</item>

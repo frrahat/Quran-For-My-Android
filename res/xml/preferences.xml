@@ -19,11 +19,11 @@
     
     <ListPreference
         android:defaultValue="3"
-        android:dialogTitle="@string/title_scdndryTxtSelection"
-        android:entries="@array/array_scdndryTxtSlctn"
+        android:dialogTitle="@string/title_scndryTxtSelection"
+        android:entries="@array/array_scndryTxtSlctn"
         android:entryValues="@array/array_seletionValue"
-        android:key="pref_scdndryTxtIndex"
-        android:title="@string/title_scdndryTxtSelection" />
+        android:key="pref_scndryTxtIndex"
+        android:title="@string/title_scndryTxtSelection" />
     
     <ListPreference
         android:defaultValue="5000"

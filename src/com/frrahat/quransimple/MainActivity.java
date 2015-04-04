@@ -784,17 +784,22 @@ public class MainActivity extends Activity {
 		}
 		//default value is "No Secondary Text" that is 3 or -1
 		SECONDARY_TEXT_INDEX=Integer.parseInt(sharedPrefs.getString(
-				"pref_scdndryTxtIndex", "-1"));
+				"pref_scndryTxtIndex", "-1"));
 
 		if(SECONDARY_TEXT_INDEX==3)
 			SECONDARY_TEXT_INDEX=-1;
 		
 		else if(SECONDARY_TEXT_INDEX==SELECTED_TEXT_INDEX){
 			Toast.makeText(this,
-					"Primary Text and Secondary Text are same.\nChange Secondary Text",
+					"Primary Text and Secondary Text are same."
+					+ "\nSecondary Text Disabled.",
 					Toast.LENGTH_LONG).show();
 			
 			SECONDARY_TEXT_INDEX=-1;
+			//save to pref
+			SharedPreferences.Editor editor=sharedPrefs.edit();
+			editor.putString("pref_scndryTxtIndex","3");
+			editor.apply();
 		}
 		else{
 			loadTextFile(SECONDARY_TEXT_INDEX);
@@ -819,6 +824,7 @@ public class MainActivity extends Activity {
 			mainText.setTypeface(translitTypeface2);// TODO change or remove "2"
 		} else {
 			mainText.setTypeface(Typeface.DEFAULT);
+			//TODO set appropriate typeface to accept secondary text
 		}
 
 		// set gravity

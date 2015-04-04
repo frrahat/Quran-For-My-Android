@@ -53,7 +53,7 @@
 </string>
 
     <string name="title_textSelection">Primary Text Selection</string>
-    <string name="title_scdndryTxtSelection">Secondary Text Selection</string>
+    <string name="title_scndryTxtSelection">Secondary Text Selection</string>
     
     <string-array name="array_textSelection">
         <item>Arabic Text</item>
@@ -63,7 +63,7 @@
     </string-array>
  
      <!-- word by word is replaced by No secondary text -->   
-	<string-array name="array_scdndryTxtSlctn">
+	<string-array name="array_scndryTxtSlctn">
         <item>Arabic Text</item>
         <item>English Text</item>
         <item>Bengali Text</item>

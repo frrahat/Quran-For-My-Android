@@ -91,10 +91,12 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Full Screen
+		if (android.os.Build.VERSION.SDK_INT >= 14) {
 		if (ViewConfiguration.get(this).hasPermanentMenuKey()) {
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		} 
 		}
 		setContentView(R.layout.activity_main);
 
@@ -982,7 +984,7 @@ public class MainActivity extends Activity {
 						if (newSelectedIndex[0] != SELECTED_TEXT_INDEX) {
 							editor.putString("pref_text_selection",
 									Integer.toString(newSelectedIndex[0]));
-							editor.apply();
+							editor.commit();
 						}
 
 						// update now

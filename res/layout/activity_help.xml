@@ -18,7 +18,7 @@
         android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/textViewAppName"
+        android:id="@+id/textViewAppName_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -27,21 +27,21 @@
         android:textSize="25sp" />
 
     <ScrollView
-        android:id="@+id/scrollViewForInfo"
+        android:id="@+id/scrollViewForHelp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true" 
         style="@style/scrollerThumb">
 
         <EditText
-            android:id="@+id/editTextForInfo"
+            android:id="@+id/editTextForHelp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false" 
             android:inputType="textMultiLine"
             android:autoLink="web"
             android:linksClickable="true" 
-            android:text="@string/text_info" />
+            android:text="@string/text_help" />
 
     </ScrollView>
 

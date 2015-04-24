@@ -24,11 +24,12 @@ public class SuraListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//Full Screen
+		/*//Full Screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		//------------*/
+		//------------
+		*/		
 		setContentView(R.layout.activity_sura_list);
 		
 		final String suraNames[] = getResources().getStringArray(R.array.sura_name);
@@ -46,7 +47,7 @@ public class SuraListActivity extends Activity {
 			public View getView(int position, View view, ViewGroup parent) {
 				if(view==null)
 				{
-					view=layoutInflater.inflate(R.layout.list_item, null);
+					view=layoutInflater.inflate(R.layout.surah_list_item, null);
 				}
 				TextView textView1=(TextView) view.findViewById(R.id.text1);
 				TextView textView2=(TextView) view.findViewById(R.id.text2);

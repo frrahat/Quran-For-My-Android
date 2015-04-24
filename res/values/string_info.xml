@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="text_info">        
+		Quran For My Android" is a simple app that displays Quran text or word by word translation.
+
+		\n\nThis was intended to be used for learning the translations of 'Quranic words' And thus understanding the Quran and at the same time accelerating learning arabic.
+
+		\n\nAll word by word transliteration, meanings were collected from "http://corpus.quran.com/wordbyword.jsp" which is "an annotated linguistic resource which shows the Arabic grammar, syntax and morphology for each word in the Holy Quran."
+		\n\nArabic quran text is from http://tanzil.net and distributed under the terms of a Creative Commons Attribution 3.0 License.
+		\n\nEnglish translation follows Yusuf Ali's translation of Quran.(collected from http://zekr.org/resources.html#translation)
+		\n\n\n***
+  
+        \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com</string>
+
+</resources>

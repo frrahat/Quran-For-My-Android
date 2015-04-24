@@ -10,7 +10,7 @@
         android:title="@string/title_fontSize" />
 
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="2"
         android:dialogTitle="@string/title_textSelection"
         android:entries="@array/array_textSelection"
         android:entryValues="@array/array_seletionValue"
@@ -18,7 +18,7 @@
         android:title="@string/title_textSelection" />
     
     <ListPreference
-        android:defaultValue="3"
+        android:defaultValue="0"
         android:dialogTitle="@string/title_scndryTxtSelection"
         android:entries="@array/array_scndryTxtSlctn"
         android:entryValues="@array/array_seletionValue"

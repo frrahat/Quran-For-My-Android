@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_help">        
-        Quran For My Android" is a simple app that displays Quran text or translation.
+        Quran For My Android" is a simple app that displays verses of Quran and word by word translation.
         
         \nYou have to enter verse no. to display the texts.
         \nYou can enter verse no. in these forms:
@@ -15,7 +15,7 @@
         
 		\n\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n
 		
-		\n\nAdditional Translation Texts can be added also. From options/menu go to \"Additional Texts\" then you can browse through your files and select the target file. The selected file will be added after it passes the validity check.
-		\nTranslations in various languages are available at http://zekr.org/resources.html#translation .Disclaimer: Their authenticity and/or accuracy is not guaranteed. Please use them at your own risk. 
+		\n\nAdditional Translation Texts can be added also. From options/menu go to \"Additional Texts\" then you can browse through your files and select the target file (of .txt or .zip format). The selected file will be added after it passes the validity check.
+		\nTranslations in various languages are available at http://zekr.org/resources.html#translation. Disclaimer: Their authenticity and/or accuracy is not guaranteed. Please use them at your own risk. 
 	</string>
 </resources>

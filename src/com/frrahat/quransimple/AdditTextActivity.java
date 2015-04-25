@@ -172,7 +172,7 @@ public class AdditTextActivity extends Activity {
         Integer.toString(FileItemContainer.getFileItems().size())+" file(s)");
         }else{
         	noOfFilesTextView.setText("No file added. Click \'"+getString(R.string.txt_but_addAdditText)
-        			+"\' and select your downloaded/previously stored file.\nIf the file is not in your local storage"
+        			+"\' and select your downloaded/previously stored file (of .txt or .zip format).\nIf the file is not in your local storage"
         			+ " you may download it from here: http://zekr.org/resources.html#translation"
         			+ "\nDisclaimer: Their authenticity and/or accuracy is not guaranteed. Please use them at your own risk.");
         	Linkify.addLinks(noOfFilesTextView, Linkify.WEB_URLS);

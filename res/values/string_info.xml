@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="text_info">        
+		Quran For My Android" is a simple app that displays verses of Quran and word by word translation.
+
+		\n\nThe purpose of this app is to enable quick access to the verses of Quran with different translations and also to help learning the translations of 'Quranic words' with word by word translation.
+		\nThis app doesn't ensure exact rendering of Arabic Text of the Quran, so this app is NOT GOOD for READING Arabic Text of Quran. I personally recommend this excellent app (https://play.google.com/store/apps/details?id=com.quran.labs.androidquran) for the Reading purpose. 
+
+		\n\nAll word by word transliteration, meanings were collected from "http://corpus.quran.com/wordbyword.jsp" which is "an annotated linguistic resource which shows the Arabic grammar, syntax and morphology for each word in the Holy Quran."
+		\n\nArabic quran text is from http://tanzil.net and distributed under the terms of a Creative Commons Attribution 3.0 License.
+		\n\nEnglish translation follows Yusuf Ali's translation of Quran.(collected from http://zekr.org/resources.html#translation)
+		\n\n\n***
+  
+        \n\n\n\nIf you find any bug please email to fr.rahat@gmail.com</string>
+
+</resources>

@@ -9,10 +9,34 @@
         android:title="@string/action_showList"/>
     
     <item
+        android:id="@+id/action_addToBookmark"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_addToBookmark"/>
+    
+    <item
+        android:id="@+id/action_showAllBookmark"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_showAllBookmarks"/>
+    
+    <item
         android:id="@+id/action_copyAll"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_copyAll"/>
+    
+    <item
+        android:id="@+id/action_additText"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_additText"/>
+    
+    <item
+        android:id="@+id/action_showHelp"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_showHelp"/>
     
     <item
         android:id="@+id/action_settings"

@@ -10,10 +10,14 @@
 package com.frrahat.quransimple;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+
 
 
 import android.content.Context;
@@ -31,69 +35,64 @@ public class QuranText {
 	
 	//public static String QuranTextFileName="/searchQuran/files/texts/quran-uthmani.txt";
 	
-	public QuranText(Context context,int resourceId, boolean isArabic)
+	public QuranText(InputStream inStream, boolean isArabic)
 	{
-		InputStream in=context.getResources().openRawResource(resourceId);
 		
-		if(in!=null)
-		{
-			BufferedReader reader=null;
-			
-			try
-			{
-				reader=new BufferedReader(new InputStreamReader(in,"utf-8"));
-				
-				String text;
-				String firstAyah;
-				
-				quranText=new String[114][];
-				int suraIndex=0;
-				int ayahRead=0;
-				int ayahCount=SuraInformation.totalAyas[0];
-				quranText[0]=new String[ayahCount];
-				
-				while((text=reader.readLine())!=null)
-				{
-					if(isArabic && ayahRead==0)//first ayah
-					{
-						if(suraIndex!=8)//sura at Tawba
-							firstAyah=filterBismillah(text);
-						else
-							firstAyah=text;
-						
-						quranText[suraIndex][ayahRead]=firstAyah;
-					}
-					else
-					{
-						quranText[suraIndex][ayahRead]=text;
-					}
-					
-					ayahRead++;
-					
-					if(ayahRead==ayahCount)
-					{
-						if(suraIndex==113)
-							break;
-						suraIndex++;
-						ayahRead=0;
-						ayahCount=SuraInformation.totalAyas[suraIndex];
-						quranText[suraIndex]=new String[ayahCount];
-					}
-				}
-				Log.i("success", "quran Text loading success");
-				reader.close();
-			}
-			catch(IOException ie)
-			{
-				ie.printStackTrace();
-			}
-		}
-		else
-		{
+		if(inStream==null){
 			Log.i("failure", "file not found");
+			return;
+		}
+		BufferedReader reader=null;
+		
+		try
+		{
+			reader=new BufferedReader(new InputStreamReader(inStream,"utf-8"));
+			
+			String text;
+			String firstAyah;
+			
+			quranText=new String[114][];
+			int suraIndex=0;
+			int ayahRead=0;
+			int ayahCount=SuraInformation.totalAyas[0];
+			quranText[0]=new String[ayahCount];
+			
+			while((text=reader.readLine())!=null)
+			{
+				if(isArabic && ayahRead==0)//first ayah
+				{
+					if(suraIndex!=8)//sura at Tawba
+						firstAyah=filterBismillah(text);
+					else
+						firstAyah=text;
+					
+					quranText[suraIndex][ayahRead]=firstAyah;
+				}
+				else
+				{
+					quranText[suraIndex][ayahRead]=text;
+				}
+				
+				ayahRead++;
+				
+				if(ayahRead==ayahCount)
+				{
+					if(suraIndex==113)
+						break;
+					suraIndex++;
+					ayahRead=0;
+					ayahCount=SuraInformation.totalAyas[suraIndex];
+					quranText[suraIndex]=new String[ayahCount];
+				}
+			}
+			Log.i("success", "quran Text loading success");
+			reader.close();
+		}
+		catch(IOException ie)
+		{
+			ie.printStackTrace();
 		}
 	}
-	
 	/**
 	 * @return the quranText
 	 */

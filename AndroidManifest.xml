@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.frrahat.quransimple"
-    android:versionCode="111"
-    android:versionName="1.1.1" >
+    android:versionCode="120"
+    android:versionName="1.2.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -37,6 +40,28 @@
         <activity
             android:name=".InfoActivity"
             android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".AdditTextActivity"
+            android:label="@string/title_activity_addit_text" >
+        </activity>
+        <activity
+            android:name=".FileItemEditActivity"
+            android:label="@string/title_activity_file_item_edit"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help" >
+        </activity>
+        <activity
+            android:name=".BookmarkDisplayActivity"
+            android:label="@string/title_activity_bookmark_display" >
+        </activity>
+        <activity
+            android:name=".BookmarkEditActivity"
+            android:label="@string/title_activity_bookmark_edit" 
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

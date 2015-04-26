@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.frrahat.quransimple.BookmarkEditActivity" >
+
+    <TextView
+        android:id="@+id/textView_bookmarkEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:text="foo"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView_labelComment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:text="Comment:" />
+        
+        <Button
+            android:id="@+id/button_bookmarkEditClearComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear Comment" />
+
+    </LinearLayout>
+	
+	<ScrollView
+        android:id="@+id/scrollView_bookmarkCommentEdit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true" 
+        style="@style/scrollerThumb">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+		    <EditText
+		        android:id="@+id/editText_bookmarkEdit"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:gravity="top"
+                android:inputType="textMultiLine" 
+                android:background="@android:color/background_dark"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textCursorDrawable="@drawable/cursor_color" 
+		        android:ems="10" >
+		
+		        <requestFocus />
+		    </EditText>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button_bookmarkEditSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button_bookmarkEditRemove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Remove" />
+
+    </LinearLayout>
+
+</LinearLayout>

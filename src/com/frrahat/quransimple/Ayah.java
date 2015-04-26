@@ -1,11 +1,13 @@
 
 package com.frrahat.quransimple;
 
+import java.io.Serializable;
+
 /**
  * @author Rahat
  *
  */
-public class Ayah {
+public class Ayah implements Serializable{
 	public int suraIndex;
 	public int ayahIndex;
 	

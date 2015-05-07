@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_fontSize">pref_font_size</string>
+    <string name="key_primary_text_selection">pref_text_selection</string>
+    <string name="key_secondary_text_selection">pref_scndryTxtIndex</string>
+    <string name="key_setFonts">pref_setFont</string>
+    <string name="key_maxSearchCount">pref_maxSearchCount</string>
+    <string name="key_searchOperandTextIndex">pref_searchOperandTextIndex</string>
+    <string name="key_maxAyahInPage">pref_maxAyahInPage</string>
+    <string name="key_pagesToSkipOnClick">pref_pgsToSkpOnLClick</string>
+    <string name="key_showTextSelectOnStart">pref_showTextSelection</string>
+    <string name="key_confirmExit">pref_confirmExit</string>
+</resources>

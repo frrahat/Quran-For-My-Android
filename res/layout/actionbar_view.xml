@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/editText_commandText"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:textColorHint="@android:color/holo_green_dark"
+     android:textColor="@android:color/holo_orange_dark"
+     android:textCursorDrawable="@drawable/cursor_color" 
+     android:gravity="center">
+</EditText>

@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 
 
 public class SettingsActivity extends PreferenceActivity {
 
+	private final int REQUEST_FontsSetting=0;
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,17 @@ public class SettingsActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 		
 		setListPreferenceData();
+		
+		Preference button = (Preference)findPreference(getString(R.string.key_setFonts));
+		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+			@Override
+            public boolean onPreferenceClick(Preference preference) {   
+            	Intent intent = new Intent(SettingsActivity.this, FontSettingActivity.class);
+    			startActivityForResult(intent, REQUEST_FontsSetting); 
+                return true;
+            }
+		});
 	}
 
 	private void setListPreferenceData() {
@@ -27,13 +40,13 @@ public class SettingsActivity extends PreferenceActivity {
 			return;
 		
 		@SuppressWarnings("deprecation")
-		ListPreference listPrefPrimary=(ListPreference) findPreference("pref_text_selection");
+		ListPreference listPrefPrimary=(ListPreference) findPreference(getString(R.string.key_primary_text_selection));
 		CharSequence[] oldEntries = listPrefPrimary.getEntries();
 		
 		int oldItemSize=oldEntries.length;
 		
-		oldItemSize=oldItemSize<=MainActivity.Total_Default_Quran_Texts ? 
-				oldItemSize : MainActivity.Total_Default_Quran_Texts;
+		/*oldItemSize=oldItemSize<=MainActivity.Total_Default_Quran_Texts ? 
+				oldItemSize : MainActivity.Total_Default_Quran_Texts;*/
 		
 		int totalItems=oldItemSize+fileItems.size();
 		
@@ -53,7 +66,8 @@ public class SettingsActivity extends PreferenceActivity {
 		listPrefPrimary.setEntries(newEntries);
 		listPrefPrimary.setEntryValues(entryValues);
 
-		ListPreference listPrefSecondary=(ListPreference) findPreference("pref_scndryTxtIndex");
+		@SuppressWarnings("deprecation")
+		ListPreference listPrefSecondary=(ListPreference) findPreference(getString(R.string.key_secondary_text_selection));
 		CharSequence[] newEntriesSecondary=newEntries.clone();
 		newEntriesSecondary[0]="No Secondary Text";
 		listPrefSecondary.setEntries(newEntriesSecondary);
@@ -61,7 +75,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		Log.i("update", "list pref updated");
 	}
-
+	
 	public static Intent start(Activity activity) {
 		return new Intent(activity, SettingsActivity.class);
 	}

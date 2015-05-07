@@ -3,7 +3,7 @@
 
     <string name="app_name">Quran For My Android</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_showList">Show List of Suras</string>
+    <string name="action_showSurahList">Show List of Surahs</string>
     <string name="action_addToBookmark">Add To Bookmark</string>
     <string name="action_showAllBookmarks">Show All Bookmarks</string>
     <string name="action_copyAll">Copy The Texts To Clipboard</string>
@@ -12,10 +12,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_showInfo">Info</string>
     <string name="action_tryExit">Exit</string>
-    
     <string name="action_sortBookmarks">Sort Bookmarks</string>
     <string name="action_clearAllBookmarks">Clear All Bookmarks</string>
-    
     <string name="button_prev">prev</string>
     <string name="button_next">next</string>
     <string name="hint_commandText">Enter verse No.</string>
@@ -26,8 +24,12 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_info">Info</string>
     <string name="title_activity_sura_list">List of surahs</string>
+    
     <string name="title_textSelection">Primary Text Selection</string>
+    <string name="summary_textSelection">Text to be displayed first</string>
+    
     <string name="title_scndryTxtSelection">Secondary Text Selection</string>
+    <string name="summary_scndryTxtSelection">Text to be displayed second or below</string>
 
     <string-array name="array_textSelection">
         <item>Word By Word</item>
@@ -60,7 +62,7 @@
 	    <item >2</item>
 	    <item >3</item>
 	    <item >4</item>
-	    <item >5</item>
+	    <item >5</item>
         -->
         <item>6</item>
         <item>7</item>
@@ -110,6 +112,7 @@
     </string-array>
 
     <string name="title_maxSearchCount">Max Search Count</string>
+    <string name="summary_maxSearchCount">Set smaller value for quicker performance during searching</string>
 
     <string-array name="array_maxSearchCount">
         <item>100</item>
@@ -120,7 +123,12 @@
         <item>30000</item>
     </string-array>
 
+    <string name="title_setFonts">Set Fonts</string>
+    <string name="summary_setFonts">Set better Fonts For the Primary Texts</string>
+    
     <string name="title_showTextSelectionOnStart">Choose Primary Text On Start</string>
+    <string name="summary_showTextSelectionOnStart">Show Primary Text Selection Dialog on Start</string>
+    
     <string name="title_confirmBeforeExit">Confirm Before Exit</string>
 
     <string-array name="array_maxAyahInPage">
@@ -132,8 +140,10 @@
         <item>30</item>
     </string-array>
 
-    <string name="title_maxAyahInPage">Max Ayah In A Page</string>
+    <string name="title_maxAyahInPage">Max Ayahs In A Page</string>
+    
     <string name="title_pgsToSkpOnLClick">No. Of Pages To Skip On Long Click</string>
+    <string name="summary_pgsToSkipOnLClick">No. of pages to skip when prev or next button is pressed for long</string>
 
     <string-array name="array_pgsToSkpOnLClick">
         <item>5</item>
@@ -153,5 +163,21 @@
     <string name="title_activity_bookmark_display">Bookmarks</string>
     <string name="text_button_bookmarksDisplay">Display All Bookmarks</string>
     <string name="title_activity_bookmark_edit">Edit Bookmark</string>
+    <string name="text_button_showSurahList">Surah List</string>
+    
+    <string name="title_searchOperandTextSelection">Select Search Operand text</string>
+	<string name="summary_searchOperandTextSelection">Text(s) on which searching will be operated in search mode</string>
+    
+    <string-array name="array_searchOperandText">
+        <item>Only English Text</item>
+        <item>Primary/Secondary Text</item>
+        <item>All of the above texts</item>
+        <!-- <item>Bengali Text</item> -->
+    </string-array>
+
+    <string name="title_activity_font_setting">Set Fonts</string>
+    <string name="txt_textView_fontSetting">Choose Preferred Fonts for the texts when selected as the Primary Text</string>
+    <string name="title_activity_font_list">Available Fonts</string>
+    <string name="text_button_addMoreFontFiles">Add More Font Files</string>
 
 </resources>

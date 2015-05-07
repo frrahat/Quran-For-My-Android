@@ -56,6 +56,8 @@ public class AdditTextActivity extends Activity {
 	
 	private int totalAyahs;
 	
+	private String fileFormats[]={".txt",".zip"};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -146,7 +148,7 @@ public class AdditTextActivity extends Activity {
 					return;
 				}
 				
-				fileChooserDialog=new FileChooserDialog();
+				fileChooserDialog=new FileChooserDialog(fileFormats);
 				fileChooserDialog.setOnFileChosenListener(
 						new FileChooserDialog.OnFileChosenListener() {
 					
@@ -169,7 +171,8 @@ public class AdditTextActivity extends Activity {
 		
 		if(FileItemContainer.getFileItems().size()!=0){
         	noOfFilesTextView.setText("Previously Added "+
-        Integer.toString(FileItemContainer.getFileItems().size())+" file(s)");
+        Integer.toString(FileItemContainer.getFileItems().size())+" file(s).\n"
+        		+ "See \'Help\' to get suggestion about adding more files.");
         }else{
         	noOfFilesTextView.setText("No file added. Click \'"+getString(R.string.txt_but_addAdditText)
         			+"\' and select your downloaded/previously stored file (of .txt or .zip format).\nIf the file is not in your local storage"
@@ -231,7 +234,9 @@ public class AdditTextActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_showHelp) {
+			Intent intent = new Intent(this, HelpActivity.class);
+			this.startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

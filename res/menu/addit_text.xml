@@ -2,4 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.frrahat.quransimple.AddAdditTextActivity" >
 
+    <item
+        android:id="@+id/action_showHelp"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_showHelp"/>
+    
 </menu>

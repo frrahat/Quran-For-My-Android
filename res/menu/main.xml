@@ -3,15 +3,17 @@
     tools:context="com.frrahat.quransimple.MainActivity" >
 
     <item
-        android:id="@+id/action_showList"
+        android:id="@+id/action_showSurahList"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_showList"/>
+        android:icon="@drawable/ic_menu_list"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_showSurahList"/>
     
     <item
         android:id="@+id/action_addToBookmark"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:icon="@drawable/bookmark"
+        android:showAsAction="ifRoom"
         android:title="@string/action_addToBookmark"/>
     
     <item
@@ -41,7 +43,8 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:icon="@drawable/ic_ab_settings"
+        android:showAsAction="ifRoom"
         android:title="@string/action_settings"/>
     <item
         android:id="@+id/action_showInfo"

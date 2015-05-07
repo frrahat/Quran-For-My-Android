@@ -153,11 +153,9 @@ public class FileItemContainer {
 			success=true;
 			objectInStream.close();
 
-		} catch (IOException e) {
+		} catch (IOException | ClassCastException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 		
 		return success;
 	}

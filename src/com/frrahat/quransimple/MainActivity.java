@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,7 +20,6 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,10 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -41,7 +38,8 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 /**
- * @author Rahat started: February 21, 2015 at 7:04:18 PM
+ * @author Rahat 
+ * started: February 21, 2015 at 7:04:18 PM
  */
 public class MainActivity extends Activity {
 
@@ -58,7 +56,6 @@ public class MainActivity extends Activity {
 
 	private InputCommand CUR_INPUT_COMMAND;
 
-	private QuranText SearchOperandText;
 	private int MAX_AYAHS_IN_ONE_PAGE;
 
 	private int PagesToSkipOnLongClick;
@@ -68,7 +65,6 @@ public class MainActivity extends Activity {
 	};
 
 	// for loadinfg texts
-	public static final int Total_Default_Quran_Texts = 3;
 	public static final int Max_Quran_Texts = 10; 
 	//quranText[0] will be always empty
 	private QuranText[] allQuranTexts;
@@ -88,19 +84,23 @@ public class MainActivity extends Activity {
 	private final int Word_Info_Index = 0;
 	private final int Arabic_Text_Index = 1;
 	private final int English_Text_Index = 2;
+	public static final int Total_Default_Quran_Texts = 3;
+	
+	private final int Search_Operand_Only_English=0;
+	private final int Search_Operand_Pri_And_Secondary=1;
+	private final int Search_Operand_All=2;
 
 	private int PRIMARY_TEXT_INDEX;
 	private int SECONDARY_TEXT_INDEX = Word_Info_Index;
+	private int Search_Operand_Text_Id=Search_Operand_Pri_And_Secondary;
 	private int MAX_SEARCH_COUNT;
 
 	// private enum Text{Arabic, EngLish, Bengali};
 
 	// for font faces
-	//Typeface bengaliTypeface;
-	Typeface translitTypeface;// for transliterartion font,not much clear but
-	// supports all charecter
-	Typeface translitTypeface2;// TODO can be removed if not used, clear but
-								// doesn't support all
+	public static final int totalDefaultTypefaces=4;
+	private Typeface defaultTypefaces[];
+	private static String defaultTypefaceNames[];
 
 	private boolean isInSearchMode;
 
@@ -112,12 +112,6 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Full Screen
-		if (ViewConfiguration.get(this).hasPermanentMenuKey()) {
-			requestWindowFeature(Window.FEATURE_NO_TITLE);
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
 		setContentView(R.layout.activity_main);
 		
 		storageFolderName="."+getApplicationContext().getPackageName();
@@ -125,17 +119,18 @@ public class MainActivity extends Activity {
 		initializeComponents();
 	}
 
-	/*
-	 * @Override protected void onResume() { super.onResume(); //TODO change
-	 * this Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show(); }
-	 */
 
 	private void initializeComponents() {
 
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		commandText = (EditText) findViewById(R.id.editText_commandText);
+		
+		ActionBar actionBar=getActionBar();
+		actionBar.setCustomView(R.layout.actionbar_view);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+		
+		commandText = (EditText) actionBar.getCustomView().findViewById(R.id.editText_commandText);
 
 		mainText = (EditText) findViewById(R.id.editText_mainText);
 		scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -242,9 +237,9 @@ public class MainActivity extends Activity {
 		// loadAllFiles();
 		loadFonts();
 
-		if (sharedPrefs.getBoolean("pref_showTextSelection", true)) {
+		if (sharedPrefs.getBoolean(getString(R.string.key_showTextSelectOnStart), true)) {
 			//when no text or invalid text index has been selected
-			updatePrimaryText();//updatefromprefs() calls it
+			updatePrimaryTextIndex();//updatefromprefs() calls it
 			
 			showTextSelectionDialog();
 			// updateFromPrefs() is included there,
@@ -257,7 +252,7 @@ public class MainActivity extends Activity {
 
 		// load English text for searching if it's not loaded
 		//loadTextFile(English_Text_Index);
-		new TextUpdatingTask(this,"English Text").execute(English_Text_Index);
+		//new TextUpdatingTask(this,"English Text").execute(English_Text_Index);
 
 		// ToBePrintedAyahs=new ArrayList<>();
 
@@ -267,7 +262,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		if (sharedPrefs.getBoolean("pref_confirmExit", true))
+		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
 			tryExitApp();
 		else
 			finish();
@@ -293,6 +288,9 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		if(isInSearchMode){
+			menu.findItem(R.id.action_addToBookmark).setVisible(false);
+		}
 		return true;
 	}
 
@@ -314,12 +312,16 @@ public class MainActivity extends Activity {
 				printSingleAyah(ayah);
 				// send cursor to the end
 				commandText.setSelection(commandText.getText().length());
+				if(isInSearchMode){
+					setSearchModeOff();
+				}
 			}
 		}
 		
 		else if(requestCode == REQUEST_BookmarksDisplay && resultCode == RESULT_OK){
-			
-			setSearchModeOff();
+			if(isInSearchMode){
+				setSearchModeOff();
+			}
 			CUR_INPUT_COMMAND=getBookmarkInputCommand();
 			printAllAyahs();
 		}
@@ -332,7 +334,7 @@ public class MainActivity extends Activity {
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
-		if (id == R.id.action_showList) {
+		if (id == R.id.action_showSurahList) {
 			Intent intent = new Intent(this, SuraListActivity.class);
 			this.startActivityForResult(intent, REQUEST_SURAH_LIST);
 			return true;
@@ -529,7 +531,7 @@ public class MainActivity extends Activity {
 			if (CUR_INPUT_COMMAND.totalToPrint != 1) {
 				Toast.makeText(
 						this,
-						"Can show only a single Ayah\n in Word by Word Text Mode",
+						"Cannot show multiple Ayahs in Word by Word Text Mode. Change the primary text.",
 						Toast.LENGTH_SHORT).show();
 			} else if (CUR_INPUT_COMMAND.inputMode == InputMode.MODE_VERSE)
 				printSingleAyah(CUR_INPUT_COMMAND.ayah);
@@ -676,23 +678,43 @@ public class MainActivity extends Activity {
 			this.inputMode = InputMode.MODE_SEARCH;
 			this.Query = query;
 
-			if (SearchOperandText == null) {
-
-				if (allQuranTexts[English_Text_Index] == null) {
-					Toast.makeText(
-							getBaseContext(),
-							"Search Operand file can't be "
-									+ "loaded. Searching failed.",
-							Toast.LENGTH_SHORT).show();
-
-					return;
-				} else {
-					SearchOperandText = allQuranTexts[English_Text_Index];
+			// ####
+			ToBePrintedAyahs=new ArrayList<>();
+			
+			if(Search_Operand_Text_Id==Search_Operand_Only_English){
+				allQuranTexts[English_Text_Index].search(Query,
+						MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+						ToBePrintedAyahs);
+			}
+			else if(Search_Operand_Text_Id==Search_Operand_Pri_And_Secondary){
+				primaryText.search(Query,
+						MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+						ToBePrintedAyahs);
+				
+				if(ToBePrintedAyahs.size()==0 && secondaryText!=null){
+					secondaryText.search(Query,
+							MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+							ToBePrintedAyahs);
 				}
 			}
-			// ####
-			ToBePrintedAyahs = SearchOperandText.search(Query,
-					MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex);
+			else if(Search_Operand_Text_Id==Search_Operand_All){
+				allQuranTexts[English_Text_Index].search(Query,
+						MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+						ToBePrintedAyahs);
+				
+				if(ToBePrintedAyahs.size()==0 && PRIMARY_TEXT_INDEX!=English_Text_Index){
+					primaryText.search(Query,
+							MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+							ToBePrintedAyahs);
+				}
+				
+				if(ToBePrintedAyahs.size()==0 && secondaryText!=null 
+						&& SECONDARY_TEXT_INDEX!=English_Text_Index){
+					secondaryText.search(Query,
+							MAX_SEARCH_COUNT, startSuraIndex, endSuraIndex,
+							ToBePrintedAyahs);
+				}
+			}
 
 			totalToPrint = ToBePrintedAyahs.size();
 
@@ -890,12 +912,25 @@ public class MainActivity extends Activity {
 	private void loadFonts() {
 		//bengaliTypeface = Typeface.createFromAsset(getAssets(),
 		//		"fonts/solaimanlipi.ttf");
-
-		translitTypeface = Typeface.createFromAsset(getAssets(),
+		
+		defaultTypefaces=new Typeface[totalDefaultTypefaces];
+		defaultTypefaceNames=new String[totalDefaultTypefaces];
+		
+		defaultTypefaces[0] = Typeface.createFromAsset(getAssets(),
 				"fonts/jaghb_uni_bold.ttf");
+		defaultTypefaceNames[0]="jaghbub_uni_bold.ttf";
 
-		translitTypeface2 = Typeface.createFromAsset(// TODO remove if not used
+		defaultTypefaces[1] = Typeface.createFromAsset(
 				getAssets(), "fonts/tahoma.ttf");
+		defaultTypefaceNames[1]="tahoma.ttf";
+		
+		defaultTypefaces[2] = Typeface.createFromAsset(
+				getAssets(), "fonts/droid_naskh_regular.ttf");
+		defaultTypefaceNames[2]="droid_naskh_regular.ttf";
+		
+		defaultTypefaces[3] = Typeface.createFromAsset(
+				getAssets(), "fonts/solaimanlipi.ttf");
+		defaultTypefaceNames[3]="solaimanlipi.ttf";
 	}
 
 	private List<WordInformation> getInfoOfWords(Ayah ayah) {
@@ -975,22 +1010,39 @@ public class MainActivity extends Activity {
 	}
 
 	private void setSearchModeOn() {
+		if(PRIMARY_TEXT_INDEX==Word_Info_Index){
+			Toast.makeText(this, "Searching Cannot Be Done In Word By Word Text Mode."
+					+ "\nChange Primary Text.", Toast.LENGTH_LONG).show();
+			return;
+			
+		}
+		if((Search_Operand_Text_Id==Search_Operand_Only_English
+				|| Search_Operand_Text_Id==Search_Operand_All)
+				&& allQuranTexts[English_Text_Index]==null){
+			new TextUpdatingTask(this,"English Text").execute(English_Text_Index);
+			//update text info, that is, search operand text is allQText[english text index]
+		}
 		isInSearchMode = true;
 		commandText.setInputType(InputType.TYPE_CLASS_TEXT);
 		commandText.setHint(R.string.hint_commandTextToSearch);
+		
+		invalidateOptionsMenu();
 	}
 
 	private void setSearchModeOff() {
 		isInSearchMode = false;
 		commandText.setInputType(InputType.TYPE_CLASS_DATETIME);
 		commandText.setHint(R.string.hint_commandText);
+		
+		invalidateOptionsMenu();
 	}
+
 
 	private void showTextSelectionDialog() {
 		AlertDialog.Builder textSelectorBuilder = new AlertDialog.Builder(this);
 
 		PRIMARY_TEXT_INDEX = Integer.parseInt(sharedPrefs.getString(
-				"pref_text_selection", Integer.toString(English_Text_Index)));
+				getString(R.string.key_primary_text_selection), Integer.toString(English_Text_Index)));
 
 		final SharedPreferences.Editor editor = sharedPrefs.edit();
 		final int newSelectedIndex[] = { PRIMARY_TEXT_INDEX };
@@ -1001,8 +1053,8 @@ public class MainActivity extends Activity {
 		String defaultItems[]=getResources().getStringArray(R.array.array_textSelection);
 		int defaultItemSize= defaultItems.length;
 		
-		defaultItemSize= defaultItemSize <= Total_Default_Quran_Texts?
-					defaultItemSize :Total_Default_Quran_Texts;
+		/*defaultItemSize= defaultItemSize <= Total_Default_Quran_Texts?
+					defaultItemSize :Total_Default_Quran_Texts;*/
 		
 		int additinalItemSize=FileItemContainer.getFileItemsSize();
 		
@@ -1029,32 +1081,37 @@ public class MainActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (newSelectedIndex[0] != PRIMARY_TEXT_INDEX) {
-							editor.putString("pref_text_selection",
+							editor.putString(getString(R.string.key_primary_text_selection),
 									Integer.toString(newSelectedIndex[0]));
 							editor.commit();
 						}
-
-						// update now
-						updateFromPrefs();
 					}
 				});
 		textSelectorBuilder.setNegativeButton("Don't Show This Again",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						editor.putBoolean("pref_showTextSelection", false);
+						editor.putBoolean(getString(R.string.key_primary_text_selection), false);
 						if (newSelectedIndex[0] != PRIMARY_TEXT_INDEX) {
-							editor.putString("pref_text_selection",
+							editor.putString(getString(R.string.key_primary_text_selection),
 									Integer.toString(newSelectedIndex[0]));
 						}
 
 						editor.commit();
-
-						// update now
-						updateFromPrefs();
 					}
 				});
-
-		textSelectorBuilder.create().show();
+		
+		
+		AlertDialog dialog=textSelectorBuilder.create();
+		
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				updateFromPrefs();
+			}
+		});
+		
+		dialog.show();
 	}
 
 	private void skipPages(int pages, int direction) {
@@ -1090,7 +1147,7 @@ public class MainActivity extends Activity {
 	 * 
 	 * final String
 	 * items[]=getResources().getStringArray(R.array.array_textSelection);
-	 * items[PRIMARY_TEXT_INDEX]="Primary Text"; //TODO check if last index is
+	 * items[PRIMARY_TEXT_INDEX]="Primary Text"; 
 	 * of word by word items[items.length-1]="No Secondary Text";
 	 * 
 	 * if(SECONDARY_TEXT_INDEX==-1){ SECONDARY_TEXT_INDEX=items.length-1; }
@@ -1126,6 +1183,7 @@ public class MainActivity extends Activity {
 			progressDialog=new ProgressDialog(context);
 			progressDialog.setIndeterminate(true);
 			progressDialog.setMessage("Loading "+textName +"...");
+			progressDialog.setCancelable(false);
 
 			//progressDialog.setCancelable(false);
 		}
@@ -1152,11 +1210,11 @@ public class MainActivity extends Activity {
 	// TODO, this is a marker for update pref function
 	private void updateFromPrefs() {
 		mainText.setTextSize(Float.parseFloat(sharedPrefs.getString(
-				"pref_font_size", "15")));
+				getString(R.string.key_fontSize), "15")));
 
 		int previousPrimaryIndex = PRIMARY_TEXT_INDEX;
 
-		updatePrimaryText();
+		updatePrimaryTextIndex();
 
 		if (previousPrimaryIndex == Word_Info_Index
 				&& previousPrimaryIndex != PRIMARY_TEXT_INDEX) {
@@ -1165,31 +1223,24 @@ public class MainActivity extends Activity {
 			System.gc();
 		}
 		
-		updateSecondaryText();
+		updateSecondaryTextIndex();
 
 		MAX_SEARCH_COUNT = Integer.parseInt(sharedPrefs.getString(
-				"pref_maxSearchCount", "5000"));
+				getString(R.string.key_maxSearchCount), "5000"));
 
 		MAX_AYAHS_IN_ONE_PAGE = Integer.parseInt(sharedPrefs.getString(
-				"pref_maxAyahInPage", "10"));
+				getString(R.string.key_maxAyahInPage), "10"));
 
 		PagesToSkipOnLongClick = Integer.parseInt(sharedPrefs.getString(
-				"pref_pgsToSkpOnLClick", "10"));
+				getString(R.string.key_pagesToSkipOnClick), "10"));
 
 		//loadTextFile(PRIMARY_TEXT_INDEX);
 		//updateTextInfo()
 		new TextUpdatingTask(this,"Primary Text").execute(PRIMARY_TEXT_INDEX);
+		
+		updateSearchOperandTextIndex();
 
-		/*// set Type face
-		if (PRIMARY_TEXT_INDEX == Bengali_Text_Index) {// bengali
-			mainText.setTypeface(bengaliTypeface);
-		} else*/ if (PRIMARY_TEXT_INDEX == Word_Info_Index
-				|| PRIMARY_TEXT_INDEX == Arabic_Text_Index) {
-			mainText.setTypeface(translitTypeface2);// TODO change or remove "2"
-		} else {
-			mainText.setTypeface(Typeface.DEFAULT);
-			// TODO set appropriate typeface to accept secondary text
-		}
+		setTextTypeface();
 
 		// set gravity
 		if (PRIMARY_TEXT_INDEX == Word_Info_Index)// word info
@@ -1201,9 +1252,9 @@ public class MainActivity extends Activity {
 
 	}
 	
-	private void updatePrimaryText(){
+	private void updatePrimaryTextIndex(){
 		PRIMARY_TEXT_INDEX = Integer.parseInt(sharedPrefs.getString(
-				"pref_text_selection", Integer.toString(English_Text_Index)));
+				getString(R.string.key_primary_text_selection), Integer.toString(English_Text_Index)));
 		
 		//if index is greater than available indices
 		if(PRIMARY_TEXT_INDEX>
@@ -1214,10 +1265,10 @@ public class MainActivity extends Activity {
 		
 		
 	}
-	private void updateSecondaryText(){
+	private void updateSecondaryTextIndex(){
 		// default value is "No Secondary Text" that is 0 or -1
 		SECONDARY_TEXT_INDEX = Integer.parseInt(sharedPrefs.getString(
-				"pref_scndryTxtIndex", Integer.toString(Word_Info_Index)));
+				getString(R.string.key_secondary_text_selection), Integer.toString(Word_Info_Index)));
 		
 		if(SECONDARY_TEXT_INDEX==Word_Info_Index)//no secondary text
 		{
@@ -1236,7 +1287,7 @@ public class MainActivity extends Activity {
 				+ FileItemContainer.getFileItemsSize() - 1) {
 			
 			storeSecondaryTextToDefault();
-		} else{//No secondary Text
+		} else if(allQuranTexts[SECONDARY_TEXT_INDEX]==null){//No secondary Text
 			// loadTextFile(SECONDARY_TEXT_INDEX);
 			//updateTextInfo()
 			new TextUpdatingTask(this, "Secondary Text")
@@ -1245,6 +1296,11 @@ public class MainActivity extends Activity {
 		
 		
 	}
+	
+	private void updateSearchOperandTextIndex(){
+		Search_Operand_Text_Id = Integer.parseInt(sharedPrefs.getString(
+				getString(R.string.key_searchOperandTextIndex), Integer.toString(Search_Operand_Pri_And_Secondary)));
+	}
 	/*
 	 * strore secondary text index as Word Info index
 	 */
@@ -1252,7 +1308,7 @@ public class MainActivity extends Activity {
 		SECONDARY_TEXT_INDEX=Word_Info_Index;
 		// save to pref
 		SharedPreferences.Editor editor = sharedPrefs.edit();
-		editor.putString("pref_scndryTxtIndex",
+		editor.putString(getString(R.string.key_secondary_text_selection),
 				Integer.toString(Word_Info_Index));// No secondary Text
 		editor.commit();
 	}
@@ -1261,7 +1317,7 @@ public class MainActivity extends Activity {
 		PRIMARY_TEXT_INDEX=English_Text_Index;
 		
 		SharedPreferences.Editor editor = sharedPrefs.edit();
-		editor.putString("pref_text_selection",
+		editor.putString(getString(R.string.key_primary_text_selection),
 				Integer.toString(English_Text_Index));
 		editor.commit();
 	}
@@ -1272,5 +1328,50 @@ public class MainActivity extends Activity {
 			secondaryText = allQuranTexts[SECONDARY_TEXT_INDEX];
 		else
 			secondaryText = null;
+	}
+	
+	//set font
+	private void setTextTypeface(){
+		if(FontItemContainer.getAllFontFiles()==null){
+			//Initialize from predefined storage location
+			FontItemContainer.initializeFontFiles(MainActivity.this);
+		}
+
+		/*if (PRIMARY_TEXT_INDEX == Word_Info_Index
+				|| PRIMARY_TEXT_INDEX == Arabic_Text_Index) {
+			mainText.setTypeface(defaultTypefaces[1]);
+		} else {
+			mainText.setTypeface(Typeface.DEFAULT);
+		}*/
+		
+		if(FontItemContainer.getSelectedFontName(PRIMARY_TEXT_INDEX).equals(
+				FontItemContainer.Default_Font_File_Name))
+		{
+			mainText.setTypeface(Typeface.DEFAULT);
+			return;
+		}
+		
+		int fontFileIndex=FontItemContainer.getFontFileIndexInAsset(PRIMARY_TEXT_INDEX);
+		
+		if(fontFileIndex!=-1){//file found in asset
+			mainText.setTypeface(defaultTypefaces[fontFileIndex]);
+		}
+		else{//file not found in asset
+			fontFileIndex=FontItemContainer.getFontFileIndexInFiles(PRIMARY_TEXT_INDEX);
+			
+			if(fontFileIndex!=-1){//file found in storage 
+				Typeface typeface=Typeface.createFromFile(FontItemContainer.getFontFile(fontFileIndex));
+				mainText.setTypeface(typeface);
+			}
+			else{//file not found in storage
+				mainText.setTypeface(Typeface.DEFAULT);
+				FontItemContainer.setSelectedFontName(PRIMARY_TEXT_INDEX,
+						FontItemContainer.Default_Font_File_Name);
+			}
+		}		
+	}
+
+	public static String getDefaultTypefaceName(int index){
+		return defaultTypefaceNames[index];
 	}
 }

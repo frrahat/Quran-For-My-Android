@@ -3,19 +3,29 @@
     <string name="text_help">        
         Quran For My Android" is a simple app that displays verses of Quran and word by word translation.
         
+        \n***Input method***
         \nYou have to enter verse no. to display the texts.
         \nYou can enter verse no. in these forms:
         \n\"Sura No.\":\"Start ayah No.\":\"End ayah No.\" (Example: 2:182:185)
         \nOr, simply, \"Sura No.\":\"Ayah No\" (Example: 2:182)
         
-        \n\nFor Searching a string in the whole English translation text, simply long press on the textfield, and search mode will be enabled. Then simply enter your target text in the textfield to search.
+        \n\n***Searching***
+        \nFor Searching a text, simply long press on the textfield, and search mode will be enabled. Then simply enter your target text in the textfield to search.
+        \nSearch Operand Text can be selected previously from the Setting.
         
         \n\nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'
         \nExample: [1,114] Paradise
         
-		\n\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n
+        \n\n***Smart Skipping***
+		\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n
 		
-		\n\nAdditional Translation Texts can be added also. From options/menu go to \"Additional Texts\" then you can browse through your files and select the target file (of .txt or .zip format). The selected file will be added after it passes the validity check.
+		\n\n***Additional Texts***
+		\nAdditional Translation Texts can be added also. From options/menu go to \"Additional Texts\" then you can browse through your files and select the target file (of .txt or .zip format). The selected file will be added after it passes the validity check.
 		\nTranslations in various languages are available at http://zekr.org/resources.html#translation. Disclaimer: Their authenticity and/or accuracy is not guaranteed. Please use them at your own risk. 
+		
+		\n\n***Fonts***
+		\nDefault font setting might will fail to display some texts perfectly. So, additional font files are required in that case.
+		\nFonts of the different texts can be set manually with \'Set Fonts\' option from the Settings. Note that, selected font is applied only to the selected \'Primary Text\' not the \'Secondary Text\'. So, font that can display both the primary text and the secondary text is the best choice.
+		 
 	</string>
 </resources>

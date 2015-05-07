@@ -6,7 +6,7 @@
         android:dialogTitle="@string/title_fontSize"
         android:entries="@array/array_fontSizeTexts"
         android:entryValues="@array/array_fontSizeTexts"
-        android:key="pref_font_size"
+        android:key="@string/key_fontSize"
         android:title="@string/title_fontSize" />
 
     <ListPreference
@@ -14,31 +14,48 @@
         android:dialogTitle="@string/title_textSelection"
         android:entries="@array/array_textSelection"
         android:entryValues="@array/array_seletionValue"
-        android:key="pref_text_selection"
-        android:title="@string/title_textSelection" />
+        android:key="@string/key_primary_text_selection"
+        android:title="@string/title_textSelection"
+        android:summary="@string/summary_textSelection" />
     
     <ListPreference
         android:defaultValue="0"
         android:dialogTitle="@string/title_scndryTxtSelection"
         android:entries="@array/array_scndryTxtSlctn"
         android:entryValues="@array/array_seletionValue"
-        android:key="pref_scndryTxtIndex"
-        android:title="@string/title_scndryTxtSelection" />
+        android:key="@string/key_secondary_text_selection"
+        android:title="@string/title_scndryTxtSelection"
+        android:summary="@string/summary_scndryTxtSelection" />
+    
+    <Preference 
+        android:title="@string/title_setFonts"
+        android:key="@string/key_setFonts"
+        android:summary="@string/summary_setFonts"/>
     
     <ListPreference
         android:defaultValue="5000"
         android:dialogTitle="@string/title_maxSearchCount"
         android:entries="@array/array_maxSearchCount"
         android:entryValues="@array/array_maxSearchCount"
-        android:key="pref_maxSearchCount"
-        android:title="@string/title_maxSearchCount" />
+        android:key="@string/key_maxSearchCount"
+        android:title="@string/title_maxSearchCount" 
+        android:summary="@string/summary_maxSearchCount"/>
+    
+    <ListPreference
+        android:defaultValue="1"
+        android:dialogTitle="@string/title_searchOperandTextSelection"
+        android:entries="@array/array_searchOperandText"
+        android:entryValues="@array/array_seletionValue"
+        android:key="@string/key_searchOperandTextIndex"
+        android:title="@string/title_searchOperandTextSelection" 
+        android:summary="@string/summary_searchOperandTextSelection"/>
     
    	<ListPreference
         android:defaultValue="10"
         android:dialogTitle="@string/title_maxAyahInPage"
         android:entries="@array/array_maxAyahInPage"
         android:entryValues="@array/array_maxAyahInPage"
-        android:key="pref_maxAyahInPage"
+        android:key="@string/key_maxAyahInPage"
         android:title="@string/title_maxAyahInPage" />
    	
    	<ListPreference
@@ -46,17 +63,20 @@
         android:dialogTitle="@string/title_pgsToSkpOnLClick"
         android:entries="@array/array_pgsToSkpOnLClick"
         android:entryValues="@array/array_pgsToSkpOnLClick"
-        android:key="pref_pgsToSkpOnLClick"
-        android:title="@string/title_pgsToSkpOnLClick" />
+        android:key="@string/key_pagesToSkipOnClick"
+        android:title="@string/title_pgsToSkpOnLClick"
+        android:summary="@string/summary_pgsToSkipOnLClick" />
     
     <CheckBoxPreference 
         android:defaultValue="1"
-        android:key="pref_showTextSelection"
-        android:title="@string/title_showTextSelectionOnStart"/>
+        android:key="@string/key_showTextSelectOnStart"
+        android:title="@string/title_showTextSelectionOnStart"
+        android:summary="@string/summary_showTextSelectionOnStart"/>
     
     <CheckBoxPreference 
         android:defaultValue="1"
-        android:key="pref_confirmExit"
+        android:key="@string/key_confirmExit"
         android:title="@string/title_confirmBeforeExit"/>
+    
     
 </PreferenceScreen>

@@ -5,13 +5,15 @@
     <item
         android:id="@+id/action_sortBookmarks"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:icon="@drawable/ic_sort"
+        android:showAsAction="ifRoom"
         android:title="@string/action_sortBookmarks"/>
     
     <item
         android:id="@+id/action_clearAllBookmarks"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_delete"
         android:title="@string/action_clearAllBookmarks"/>
     
 </menu>

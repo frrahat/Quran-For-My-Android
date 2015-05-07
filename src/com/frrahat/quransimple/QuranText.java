@@ -140,10 +140,9 @@ public class QuranText {
 		return false;
 	}
 
-	public ArrayList<Ayah> search(String query, int maxSearchCount,
-			int startSuraIndex, int endSuraIndex){
+	public void search(String query, int maxSearchCount,
+			int startSuraIndex, int endSuraIndex, ArrayList<Ayah> matchedAyahs){
 		//ArrayList<Integer> ranks=new ArrayList<>();
-		ArrayList<Ayah> matchedAyahs=new ArrayList<>();
 		
 		int queryLength=query.length();
 		//build table
@@ -189,11 +188,11 @@ public class QuranText {
 	    			count++;
 	    			
 	    			if(count>maxSearchCount)// store more than max if exists
-	    				return matchedAyahs;
+	    				return;
 	    		}
 	    	}
 	    }
-		return matchedAyahs;
+		return;
 	}
 	
 

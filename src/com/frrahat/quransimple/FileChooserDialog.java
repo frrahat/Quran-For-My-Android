@@ -38,7 +38,14 @@ public class FileChooserDialog extends DialogFragment {
 	private List <File> displayFiles;
 	private File parentDir;
 	private File root;
+	
+	String[] fileFormats;
 
+	
+	public FileChooserDialog(String[] fileFormats) {
+		this.fileFormats=fileFormats;
+	}
+	
 	@SuppressLint("InflateParams")
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -174,8 +181,7 @@ public class FileChooserDialog extends DialogFragment {
 				if (file.getName().startsWith("."))
 					continue;
 
-				if (file.isDirectory() || file.getName().endsWith(".txt")
-						|| file.getName().endsWith(".zip")) {
+				if (file.isDirectory() || isAcceptedFormat(file.getName())){
 
 					displayFiles.add(file);
 				}
@@ -195,5 +201,14 @@ public class FileChooserDialog extends DialogFragment {
 		}*/
 
 		adapter.notifyDataSetChanged();
+	}
+	
+	boolean isAcceptedFormat(String fileName){
+		for(int i=0;i<fileFormats.length;i++){
+			if(fileName.endsWith(fileFormats[i])){
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -1,4 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.frrahat.quransimple.SuraListActivity" >
+    
+    <item
+        android:id="@+id/action_searchSurah"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_ab_search"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_showSurahList"/>
+    
 </menu>

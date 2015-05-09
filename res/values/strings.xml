@@ -4,7 +4,7 @@
     <string name="app_name">Quran For My Android</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_showSurahList">Show List of Surahs</string>
-    <string name="action_addToBookmark">Add To Bookmark</string>
+    <string name="action_addBookmark">Add Bookmark</string>
     <string name="action_showAllBookmarks">Show All Bookmarks</string>
     <string name="action_copyAll">Copy The Texts To Clipboard</string>
     <string name="action_additText">Additional Texts</string>
@@ -31,6 +31,8 @@
     <string name="title_scndryTxtSelection">Secondary Text Selection</string>
     <string name="summary_scndryTxtSelection">Text to be displayed second or below</string>
 
+    <string name="text_invalid_input">Invalid Input.\nSee Help Option for correct input method.</string>
+    
     <string-array name="array_textSelection">
         <item>Word By Word</item>
         <item>Arabic Text</item>
@@ -126,8 +128,11 @@
     <string name="title_setFonts">Set Fonts</string>
     <string name="summary_setFonts">Set better Fonts For the Primary Texts</string>
     
+     <string name="title_showSurahListOnStart">Show Surah List On Start</string>
+    <string name="summary_showSurahListOnStart">Tick to display List Of Surahs on start</string>
+    
     <string name="title_showTextSelectionOnStart">Choose Primary Text On Start</string>
-    <string name="summary_showTextSelectionOnStart">Show Primary Text Selection Dialog on Start</string>
+    <string name="summary_showTextSelectionOnStart">Tick to set Primary Text on Start</string>
     
     <string name="title_confirmBeforeExit">Confirm Before Exit</string>
 
@@ -157,7 +162,7 @@
     <string name="title_activity_addit_text">Additional Text Files</string>
     <string name="txt_but_addAdditText">Add A New Text File</string>
     <string name="title_activity_file_item_edit">Edit Additional File</string>
-    <string name="title_dialog_file_chooser">Choose File</string>
+
     <string name="text_textViewFileEdit">Edit File Name</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_bookmark_display">Bookmarks</string>

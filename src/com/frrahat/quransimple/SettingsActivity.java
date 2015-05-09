@@ -22,8 +22,8 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		setListPreferenceData();
 		
-		Preference button = (Preference)findPreference(getString(R.string.key_setFonts));
-		button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+		Preference setFontButton = (Preference)findPreference(getString(R.string.key_setFonts));
+		setFontButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
 			@Override
             public boolean onPreferenceClick(Preference preference) {   

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -53,7 +54,20 @@ public class FileChooserDialog extends DialogFragment {
 		final Dialog dialog = new Dialog(getActivity());
 
 		dialog.setContentView(R.layout.dialog_file_chooser);
-		dialog.setTitle(R.string.title_dialog_file_chooser);
+		
+		String dialogTitle="Choose File";
+		
+		if(fileFormats.length>0){
+			dialogTitle+=" ("+fileFormats[0];
+			
+			for(int i=1;i<fileFormats.length;i++){
+				dialogTitle+=", "+fileFormats[i];
+			}
+			
+			dialogTitle+=" )";
+		}
+		
+		dialog.setTitle(dialogTitle);
 		dialog.setCancelable(true);
 
 		Button buttonBack = (Button) dialog.findViewById(R.id.button_back);
@@ -82,6 +96,7 @@ public class FileChooserDialog extends DialogFragment {
 		fileNameListView = (ListView) dialog
 				.findViewById(R.id.listView_file_names);
 
+		displayFiles = new ArrayList<File>();
 		// adapter for listview
 		adapter = new BaseAdapter() {
 
@@ -131,7 +146,6 @@ public class FileChooserDialog extends DialogFragment {
 			root = Environment.getDataDirectory();
 		}
 
-		displayFiles = new ArrayList();
 		parentDir = root;
 
 		updateDisplayFiles();
@@ -142,7 +156,6 @@ public class FileChooserDialog extends DialogFragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// TODO Auto-generated method stub
 				if (displayFiles.get(position).isDirectory()) {
 					parentDir = displayFiles.get(position);
 					updateDisplayFiles();
@@ -191,8 +204,8 @@ public class FileChooserDialog extends DialogFragment {
 
 				@Override
 				public int compare(File lhs, File rhs) {
-					return lhs.getName().toLowerCase()
-							.compareTo(rhs.getName().toLowerCase());
+					return lhs.getName().toLowerCase(Locale.getDefault())
+							.compareTo(rhs.getName().toLowerCase(Locale.getDefault()));
 				}
 			});
 		} /*else {

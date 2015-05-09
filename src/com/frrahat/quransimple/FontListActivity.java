@@ -1,13 +1,13 @@
 package com.frrahat.quransimple;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -141,7 +141,6 @@ public class FontListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Intent intent=new Intent();
 				FontItemContainer.setSelectedFontName(textIndex, 
 						(String)adapter.getItem(position));
 				setResult(RESULT_OK);
@@ -196,10 +195,13 @@ public class FontListActivity extends Activity {
 					
 					@Override
 					public void onFileChosen(File file) {
-						FontItemContainer.addNewFile(file);
-						FontItemContainer.resetFontFilesFromStorageFolder();
-						updateView();
-						//Toast.makeText(getBaseContext(), file.getName(), Toast.LENGTH_SHORT).show();
+						try{
+							FontItemContainer.addNewFile(file);
+							FontItemContainer.resetFontFilesFromStorageFolder();
+							updateView();
+						}catch(IOException ie){
+							Toast.makeText(FontListActivity.this, ie.getMessage(), Toast.LENGTH_SHORT).show();
+						}
 					}
 				});
 				

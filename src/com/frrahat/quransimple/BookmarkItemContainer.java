@@ -26,8 +26,9 @@ public class BookmarkItemContainer {
 		bookmarkItems = new ArrayList<>();
 
 		File storageDir;
-		// has SD card
-		if (Environment.getExternalStorageState() != null) {
+		String state=Environment.getExternalStorageState();
+		// has writable external  storage
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			storageDir = new File(Environment.getExternalStorageDirectory(),
 					MainActivity.storageFolderName);
 		} else {

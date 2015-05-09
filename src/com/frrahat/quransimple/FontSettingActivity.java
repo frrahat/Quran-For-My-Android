@@ -23,7 +23,7 @@ import android.widget.Toast;
  */
 public class FontSettingActivity extends Activity {
 
-	private boolean dataChanged;
+	private static boolean dataChanged;
 	private ListView textVsFontListView;
 	private BaseAdapter adapter;
 	private Button saveButton;
@@ -200,5 +200,13 @@ public class FontSettingActivity extends Activity {
 	
 	private void cancelFontSetting(){
 		finish();
+	}
+	
+	public static boolean isDataChanged(){
+		return dataChanged;
+	}
+	
+	public static void setDataChanged(boolean value){
+		dataChanged=value;
 	}
 }

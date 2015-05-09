@@ -67,6 +67,12 @@
         android:title="@string/title_pgsToSkpOnLClick"
         android:summary="@string/summary_pgsToSkipOnLClick" />
     
+   	<CheckBoxPreference 
+        android:defaultValue="0"
+        android:key="@string/key_showSurahListOnStart"
+        android:title="@string/title_showSurahListOnStart"
+        android:summary="@string/summary_showSurahListOnStart"/>
+   	
     <CheckBoxPreference 
         android:defaultValue="1"
         android:key="@string/key_showTextSelectOnStart"

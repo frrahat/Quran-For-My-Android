@@ -37,8 +37,9 @@ public class FontItemContainer {
 		allFontFiles = new ArrayList<>();
 		
 		File storageDir;
-		// has SD card
-		if (Environment.getExternalStorageState() != null) {
+		String state=Environment.getExternalStorageState();
+		// has writable external  storage
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			storageDir = new File(Environment.getExternalStorageDirectory(),
 					MainActivity.storageFolderName);
 		} else {
@@ -86,27 +87,26 @@ public class FontItemContainer {
 
 
 	@SuppressWarnings("resource")
-	public static void addNewFile(File sourceFile){
+	public static void addNewFile(File sourceFile) throws IOException{
 		FileChannel source = null;
 		FileChannel destination = null;
 		
-		try{
-			File destFile=new File(fontStorageDir,sourceFile.getName());
-			destFile.createNewFile();
+		File destFile=new File(fontStorageDir,sourceFile.getName());
 		
-			source=new FileInputStream(sourceFile).getChannel();
-			destination=new FileOutputStream(destFile).getChannel();
+		destFile.createNewFile();
+	
+		source=new FileInputStream(sourceFile).getChannel();
+		destination=new FileOutputStream(destFile).getChannel();
 
-			destination.transferFrom(source, 0, source.size());
+		destination.transferFrom(source, 0, source.size());
+
 			
+		try{
+			if(source!=null) source.close();
+			if(destination!=null)destination.close();
 		}catch(IOException ie){ie.printStackTrace();}
-		finally{
-			try{
-				if(source!=null) source.close();
-				if(destination!=null)destination.close();
-			}catch(IOException ie){ie.printStackTrace();}
-		}
 	}
+		
 	
 	public static void removeFile(int index){
 		if(allFontFiles.get(index).delete()){

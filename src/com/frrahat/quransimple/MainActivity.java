@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		ActionBar actionBar=getActionBar();
-		actionBar.setCustomView(R.layout.actionbar_view);
+		actionBar.setCustomView(R.layout.actionbar_with_edittext);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);
 		
@@ -231,6 +231,9 @@ public class MainActivity extends Activity {
 		});
 
 		FileItemContainer.initializeFileItems(getApplicationContext());
+		//to pass the setTextTypeFace when prefs are updated in updatePrefs()
+		FontSettingActivity.setDataChanged(true);
+		
 		WordInfoLoader.returnToInitialState();
 		allQuranTexts = new QuranText[Max_Quran_Texts];
 		// loading Quran Text files
@@ -248,6 +251,10 @@ public class MainActivity extends Activity {
 			
 		} else {
 			updateFromPrefs();
+			if(sharedPrefs.getBoolean(getString(R.string.key_showSurahListOnStart), false)){
+				Intent intent = new Intent(MainActivity.this, SuraListActivity.class);
+				startActivityForResult(intent, REQUEST_SURAH_LIST);
+			}
 		}
 
 		// load English text for searching if it's not loaded
@@ -289,7 +296,7 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		if(isInSearchMode){
-			menu.findItem(R.id.action_addToBookmark).setVisible(false);
+			menu.findItem(R.id.action_addBookmark).setVisible(false);
 		}
 		return true;
 	}
@@ -342,7 +349,7 @@ public class MainActivity extends Activity {
 			this.startActivityForResult(SettingsActivity.start(this),
 					REQUEST_SETTINGS);
 			return true;
-		} if (id == R.id.action_addToBookmark) {
+		} if (id == R.id.action_addBookmark) {
 			if(CUR_INPUT_COMMAND!=null && CUR_INPUT_COMMAND.inputMode==InputMode.MODE_VERSE){
 				Intent intent = new Intent(this, BookmarkEditActivity.class);
 				Ayah ayah=CUR_INPUT_COMMAND.ayah;
@@ -455,7 +462,7 @@ public class MainActivity extends Activity {
 		input = input.replace('-', ' ');
 		String parts[] = input.split(" ");
 		if (parts.length < 2) {
-			Toast.makeText(this, "invalid input", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.text_invalid_input, Toast.LENGTH_SHORT).show();
 			return null;
 		}
 
@@ -471,14 +478,14 @@ public class MainActivity extends Activity {
 			if (parts.length > 2)
 				endAyahNo = Integer.parseInt(parts[2]);
 		} catch (NumberFormatException e) {
-			Toast.makeText(this, "invalid input", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.text_invalid_input, Toast.LENGTH_SHORT).show();
 			return null;
 		}
 
 		// ayah construction validity is checked inside ayah class
 		// no need to recheck here
 		if (endAyahNo < startAyahNo) {
-			Toast.makeText(this, "Error: start is smaller than end",
+			Toast.makeText(this, "Error: start should be smaller than end",
 					Toast.LENGTH_SHORT).show();
 			return null;
 		}
@@ -1090,7 +1097,7 @@ public class MainActivity extends Activity {
 		textSelectorBuilder.setNegativeButton("Don't Show This Again",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						editor.putBoolean(getString(R.string.key_primary_text_selection), false);
+						editor.putBoolean(getString(R.string.key_showTextSelectOnStart), false);
 						if (newSelectedIndex[0] != PRIMARY_TEXT_INDEX) {
 							editor.putString(getString(R.string.key_primary_text_selection),
 									Integer.toString(newSelectedIndex[0]));
@@ -1108,6 +1115,10 @@ public class MainActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				updateFromPrefs();
+				if(sharedPrefs.getBoolean(getString(R.string.key_showSurahListOnStart), false)){
+					Intent intent = new Intent(MainActivity.this, SuraListActivity.class);
+					startActivityForResult(intent, REQUEST_SURAH_LIST);
+				}
 			}
 		});
 		
@@ -1332,11 +1343,16 @@ public class MainActivity extends Activity {
 	
 	//set font
 	private void setTextTypeface(){
+		
+		//no change has been made
+		if(!FontSettingActivity.isDataChanged()){
+			return;
+		}
+		
 		if(FontItemContainer.getAllFontFiles()==null){
 			//Initialize from predefined storage location
 			FontItemContainer.initializeFontFiles(MainActivity.this);
 		}
-
 		/*if (PRIMARY_TEXT_INDEX == Word_Info_Index
 				|| PRIMARY_TEXT_INDEX == Arabic_Text_Index) {
 			mainText.setTypeface(defaultTypefaces[1]);

@@ -8,6 +8,7 @@
     <string name="key_searchOperandTextIndex">pref_searchOperandTextIndex</string>
     <string name="key_maxAyahInPage">pref_maxAyahInPage</string>
     <string name="key_pagesToSkipOnClick">pref_pgsToSkpOnLClick</string>
+    <string name="key_showSurahListOnStart">pref_surahListOnStart</string>
     <string name="key_showTextSelectOnStart">pref_showTextSelection</string>
     <string name="key_confirmExit">pref_confirmExit</string>
 </resources>

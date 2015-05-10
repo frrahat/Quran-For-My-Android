@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 public class BookmarkDisplayActivity extends Activity {
 
 	private BaseAdapter adapter;
+	private TextView bookmarkListInfoText;
 	private ListView bookmarksListView;
 	private Button showAllBookmarksButton;
 	
@@ -41,7 +43,14 @@ public class BookmarkDisplayActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bookmark_display);
-
+		
+		bookmarkListInfoText=(TextView) findViewById(R.id.textView_bookmarkListInfo);
+		bookmarkListInfoText.setText("Press long on a bookmark item to edit it");
+		
+		if(SuraInformation.getSuraInformations()==null){
+			SuraInformation.loadAllSuraInfos(BookmarkDisplayActivity.this);
+		}
+		
 		bookmarksListView = (ListView) findViewById(R.id.listView_bookmarkDisplay);
 
 		adapter = new BaseAdapter() {
@@ -60,9 +69,11 @@ public class BookmarkDisplayActivity extends Activity {
 
 				BookmarkItem item = BookmarkItemContainer
 						.getBookmarkItem(position);
-
-				textView1.setText(Integer.toString(position + 1) + ")  "
-						+ item.getAyah().toString());
+				
+				Ayah ayah=item.getAyah();
+				String suraName=SuraInformation.getSuraInfo(ayah.suraIndex).title;
+				textView1.setText(Integer.toString(position + 1) + ")  "+ suraName+" "
+						+ ayah.toString());
 				textView2.setText(item.getComment());
 
 				return view;
@@ -91,11 +102,25 @@ public class BookmarkDisplayActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				
+				Intent resultIntent=new Intent();
+				resultIntent.putExtra("index",position);
+				setResult(RESULT_OK, resultIntent);
+				saveData();
+				finish();
+			}
+			
+		});
+		
+		bookmarksListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
 				Intent intent=new Intent(BookmarkDisplayActivity.this, BookmarkEditActivity.class);
 				intent.putExtra("index",position);
 				startActivityForResult(intent, Request_bookmarkEdit);
+				return false;
 			}
-			
 		});
 		
 		
@@ -109,7 +134,9 @@ public class BookmarkDisplayActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				setResult(RESULT_OK);
+				Intent resultIntent=new Intent();
+				resultIntent.putExtra("index", -1);
+				setResult(RESULT_OK,resultIntent);
 				saveData();
 				finish();
 			}

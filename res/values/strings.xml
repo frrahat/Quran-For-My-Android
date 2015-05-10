@@ -128,8 +128,20 @@
     <string name="title_setFonts">Set Fonts</string>
     <string name="summary_setFonts">Set better Fonts For the Primary Texts</string>
     
-     <string name="title_showSurahListOnStart">Show Surah List On Start</string>
-    <string name="summary_showSurahListOnStart">Tick to display List Of Surahs on start</string>
+    <string name="title_prefActionOnStart">Set Preferred Action On Start</string>
+    <string name="summary_prefActionOnStart">Set the action to be performed by the app on start</string>
+    
+    <string-array name="array_prefActionOnStart">
+        <item>None</item>
+        <item>Show Surah List</item>
+        <item>Show a Randomly Picked Ayah</item>
+    </string-array>
+    
+    <string-array name="array_valuesActionOnStart">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     
     <string name="title_showTextSelectionOnStart">Choose Primary Text On Start</string>
     <string name="summary_showTextSelectionOnStart">Tick to set Primary Text on Start</string>
@@ -168,6 +180,7 @@
     <string name="title_activity_bookmark_display">Bookmarks</string>
     <string name="text_button_bookmarksDisplay">Display All Bookmarks</string>
     <string name="title_activity_bookmark_edit">Edit Bookmark</string>
+    <string name="hint_bookmarkEditText">Additional Note</string>
     <string name="text_button_showSurahList">Surah List</string>
     
     <string name="title_searchOperandTextSelection">Select Search Operand text</string>

@@ -42,7 +42,7 @@
         android:summary="@string/summary_maxSearchCount"/>
     
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="2"
         android:dialogTitle="@string/title_searchOperandTextSelection"
         android:entries="@array/array_searchOperandText"
         android:entryValues="@array/array_seletionValue"
@@ -67,11 +67,14 @@
         android:title="@string/title_pgsToSkpOnLClick"
         android:summary="@string/summary_pgsToSkipOnLClick" />
     
-   	<CheckBoxPreference 
+   	<ListPreference
         android:defaultValue="0"
-        android:key="@string/key_showSurahListOnStart"
-        android:title="@string/title_showSurahListOnStart"
-        android:summary="@string/summary_showSurahListOnStart"/>
+        android:dialogTitle="@string/title_prefActionOnStart"
+        android:entries="@array/array_prefActionOnStart"
+        android:entryValues="@array/array_valuesActionOnStart"
+        android:key="@string/key_prefActionOnStart"
+        android:title="@string/title_prefActionOnStart"
+        android:summary="@string/summary_prefActionOnStart" />  	
    	
     <CheckBoxPreference 
         android:defaultValue="1"

@@ -17,26 +17,18 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceLarge" 
-        android:text="foo"/>
+        android:text="failure"
+        android:textColor="@android:color/holo_green_dark"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textView_labelComment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium" 
-            android:text="Comment:" />
         
         <Button
             android:id="@+id/button_bookmarkEditClearComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear Comment" />
+            android:text="Clear Text" />
 
     </LinearLayout>
 	
@@ -65,7 +57,9 @@
                 android:background="@android:color/background_dark"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textCursorDrawable="@drawable/cursor_color" 
-		        android:ems="10" >
+		        android:ems="10"
+		        android:hint="@string/hint_bookmarkEditText" 
+		        android:textColorHint="@android:color/holo_green_dark">
 		
 		        <requestFocus />
 		    </EditText>

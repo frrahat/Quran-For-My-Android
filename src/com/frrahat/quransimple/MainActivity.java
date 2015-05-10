@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -108,6 +109,12 @@ public class MainActivity extends Activity {
 	private final int REQUEST_SURAH_LIST = 1;
 	private final int REQUEST_BookmarksDisplay=2;
 	
+	
+	private final int ActionOnStartNone=0;
+	private final int ActionOnStartSurahList=1;
+	private final int ActionOnStartRandomAyah=2;
+	
+	private boolean showARandomAyah;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +246,8 @@ public class MainActivity extends Activity {
 		// loading Quran Text files
 		// loadAllFiles();
 		loadFonts();
-
+		showARandomAyah=false;
+		
 		if (sharedPrefs.getBoolean(getString(R.string.key_showTextSelectOnStart), true)) {
 			//when no text or invalid text index has been selected
 			updatePrimaryTextIndex();//updatefromprefs() calls it
@@ -251,10 +259,7 @@ public class MainActivity extends Activity {
 			
 		} else {
 			updateFromPrefs();
-			if(sharedPrefs.getBoolean(getString(R.string.key_showSurahListOnStart), false)){
-				Intent intent = new Intent(MainActivity.this, SuraListActivity.class);
-				startActivityForResult(intent, REQUEST_SURAH_LIST);
-			}
+			executeOnStartActions();
 		}
 
 		// load English text for searching if it's not loaded
@@ -325,12 +330,24 @@ public class MainActivity extends Activity {
 			}
 		}
 		
-		else if(requestCode == REQUEST_BookmarksDisplay && resultCode == RESULT_OK){
+		else if(requestCode == REQUEST_BookmarksDisplay && resultCode == RESULT_OK
+				&& data!=null){
 			if(isInSearchMode){
 				setSearchModeOff();
 			}
-			CUR_INPUT_COMMAND=getBookmarkInputCommand();
-			printAllAyahs();
+			
+			int index=data.getIntExtra("index", -1);
+			if(index<0){
+				CUR_INPUT_COMMAND=getBookmarkInputCommand();
+				printAllAyahs();
+			}
+			else{
+				CUR_INPUT_COMMAND = new InputCommand(BookmarkItemContainer.getBookmarkItem(index).getAyah(), 1);
+				mainText.setText("");
+				printSingleAyah(CUR_INPUT_COMMAND.ayah);
+				// send cursor to the end
+				commandText.setSelection(commandText.getText().length());
+			}
 		}
 	}
 
@@ -355,7 +372,11 @@ public class MainActivity extends Activity {
 				Ayah ayah=CUR_INPUT_COMMAND.ayah;
 				intent.putExtra("suraIndex", ayah.suraIndex);
 				intent.putExtra("ayahIndex", ayah.ayahIndex);
-				intent.putExtra("text", primaryText.getQuranText(ayah));
+				if(PRIMARY_TEXT_INDEX!=Word_Info_Index){
+					intent.putExtra("text", primaryText.getQuranText(ayah));
+				}else if(secondaryText!=null){
+					intent.putExtra("text", secondaryText.getQuranText(ayah));
+				}
 				this.startActivity(intent);
 			}
 			else{
@@ -917,8 +938,6 @@ public class MainActivity extends Activity {
 	 */
 
 	private void loadFonts() {
-		//bengaliTypeface = Typeface.createFromAsset(getAssets(),
-		//		"fonts/solaimanlipi.ttf");
 		
 		defaultTypefaces=new Typeface[totalDefaultTypefaces];
 		defaultTypefaceNames=new String[totalDefaultTypefaces];
@@ -936,8 +955,8 @@ public class MainActivity extends Activity {
 		defaultTypefaceNames[2]="droid_naskh_regular.ttf";
 		
 		defaultTypefaces[3] = Typeface.createFromAsset(
-				getAssets(), "fonts/solaimanlipi.ttf");
-		defaultTypefaceNames[3]="solaimanlipi.ttf";
+				getAssets(), "fonts/siyamrupali.ttf");
+		defaultTypefaceNames[3]="siyamrupali.ttf";
 	}
 
 	private List<WordInformation> getInfoOfWords(Ayah ayah) {
@@ -1115,10 +1134,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onDismiss(DialogInterface dialog) {
 				updateFromPrefs();
-				if(sharedPrefs.getBoolean(getString(R.string.key_showSurahListOnStart), false)){
-					Intent intent = new Intent(MainActivity.this, SuraListActivity.class);
-					startActivityForResult(intent, REQUEST_SURAH_LIST);
-				}
+				executeOnStartActions();
 			}
 		});
 		
@@ -1215,6 +1231,15 @@ public class MainActivity extends Activity {
 			super.onPostExecute(result);
 			progressDialog.dismiss();
 			updateTextInfo();
+			
+			if(primaryText!=null && showARandomAyah){
+				CUR_INPUT_COMMAND = new InputCommand(getARandomAyah(), 1);
+				mainText.setText("");
+				printSingleAyah(CUR_INPUT_COMMAND.ayah);
+				// send cursor to the end
+				commandText.setSelection(commandText.getText().length());
+				showARandomAyah=false;
+			}
 		}
 	}
 	
@@ -1310,7 +1335,7 @@ public class MainActivity extends Activity {
 	
 	private void updateSearchOperandTextIndex(){
 		Search_Operand_Text_Id = Integer.parseInt(sharedPrefs.getString(
-				getString(R.string.key_searchOperandTextIndex), Integer.toString(Search_Operand_Pri_And_Secondary)));
+				getString(R.string.key_searchOperandTextIndex), Integer.toString(Search_Operand_All)));
 	}
 	/*
 	 * strore secondary text index as Word Info index
@@ -1389,5 +1414,29 @@ public class MainActivity extends Activity {
 
 	public static String getDefaultTypefaceName(int index){
 		return defaultTypefaceNames[index];
+	}
+	
+	private void executeOnStartActions(){
+		int actionIndexOnStart=Integer.parseInt(sharedPrefs.getString(getString(R.string.key_prefActionOnStart),
+				Integer.toString(ActionOnStartNone)));
+		
+		if(actionIndexOnStart==ActionOnStartNone){
+			return;
+		}
+		else if(actionIndexOnStart==ActionOnStartSurahList){
+			Intent intent = new Intent(MainActivity.this, SuraListActivity.class);
+			startActivityForResult(intent, REQUEST_SURAH_LIST);
+		}
+		else if(actionIndexOnStart==ActionOnStartRandomAyah){
+			showARandomAyah=true;
+		}
+	}
+	
+	private Ayah getARandomAyah(){
+		Random generator=new Random();
+		int suraIndex=generator.nextInt(114);
+		int ayahIndex=generator.nextInt(SuraInformation.totalAyas[suraIndex]);
+		
+		return new Ayah(suraIndex, ayahIndex);
 	}
 }

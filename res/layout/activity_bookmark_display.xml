@@ -10,6 +10,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.frrahat.quransimple.BookmarkDisplayActivity" >
 
+    <TextView
+        android:id="@+id/textView_bookmarkListInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" 
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
     <ListView
         android:id="@+id/listView_bookmarkDisplay"
         android:layout_width="match_parent"

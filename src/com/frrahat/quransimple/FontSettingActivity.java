@@ -126,7 +126,7 @@ public class FontSettingActivity extends Activity {
 					finish();
 				}
 				else{
-					Toast.makeText(FontSettingActivity.this, "No changes made. Nothing to save.", 
+					Toast.makeText(FontSettingActivity.this, "No change in setting. Nothing to save.", 
 							Toast.LENGTH_SHORT).show();
 				}
 			}

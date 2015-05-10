@@ -37,7 +37,6 @@ public class BookmarkEditActivity extends Activity {
 		commentEditText=(EditText) findViewById(R.id.editText_bookmarkEdit);
 		
 		textView.setText("Failed To Load");
-		commentEditText.setText("Failed To Load");
 		
 		Intent intent=getIntent();
 		itemIndex=intent.getIntExtra("index",-1);
@@ -70,8 +69,11 @@ public class BookmarkEditActivity extends Activity {
 					textView.setText(ayah.toString());
 					
 					String text=intent.getStringExtra("text");
-					commentEditText.setText(text);
-					commentEditText.setSelection(text.length());
+					if(text!=null){
+						text="\""+text+"\"";
+						commentEditText.setText(text);
+						commentEditText.setSelection(text.length());
+					}
 				}
 			}
 		}
@@ -101,20 +103,27 @@ public class BookmarkEditActivity extends Activity {
 				saveBookmark();
 			}
 		});
-		
 		buttonRemove=(Button) findViewById(R.id.button_bookmarkEditRemove);
+		
+		if(itemIndex<0){
+			buttonRemove.setText("Cancel");
+		}
 		buttonRemove.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				removeBookmark();
+				if(itemIndex<0){
+					finish();
+				}else{
+					removeBookmark();
+				}
 			}
 		});
 	}
 
 	private void saveBookmark(){
-		if(itemIndex<0 && !isNew){//TODO check if new
-			Toast.makeText(this,"Error! Couldn' load the target bookmark.",
+		if(itemIndex<0 && !isNew){//check if new
+			Toast.makeText(this,"Error! Couldn't load the target bookmark.",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -141,11 +150,6 @@ public class BookmarkEditActivity extends Activity {
 	}
 	
 	private void removeBookmark(){
-		if(itemIndex<0){
-			Toast.makeText(this,"Error! Couldn' load the target bookmark.",
-					Toast.LENGTH_SHORT).show();
-			return;
-		}
 		new AlertDialog.Builder(BookmarkEditActivity.this)
 		.setIcon(android.R.drawable.ic_dialog_alert)
 		.setTitle("Confirm Remove")

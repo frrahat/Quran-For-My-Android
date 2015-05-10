@@ -199,6 +199,9 @@ public class SuraListActivity extends Activity {
 		}
 		
 		adapter.notifyDataSetChanged();
+		if(displayedSurahInfos.size()==0){
+			Toast.makeText(this, "No match found.", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	private boolean contains(String large,String small){

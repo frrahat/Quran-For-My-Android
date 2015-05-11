@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.CursorJoiner.Result;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,9 +46,10 @@ public class BookmarkDisplayActivity extends Activity {
 		bookmarkListInfoText=(TextView) findViewById(R.id.textView_bookmarkListInfo);
 		bookmarkListInfoText.setText("Press long on a bookmark item to edit it");
 		
-		if(SuraInformation.getSuraInformations()==null){
-			SuraInformation.loadAllSuraInfos(BookmarkDisplayActivity.this);
-		}
+		//loaded in Main activity on creation
+		/*if(SurahInformationContainer.getSuraInformations()==null){
+			SurahInformationContainer.loadAllSuraInfos(BookmarkDisplayActivity.this);
+		}*/
 		
 		bookmarksListView = (ListView) findViewById(R.id.listView_bookmarkDisplay);
 
@@ -71,9 +71,7 @@ public class BookmarkDisplayActivity extends Activity {
 						.getBookmarkItem(position);
 				
 				Ayah ayah=item.getAyah();
-				String suraName=SuraInformation.getSuraInfo(ayah.suraIndex).title;
-				textView1.setText(Integer.toString(position + 1) + ")  "+ suraName+" "
-						+ ayah.toString());
+				textView1.setText(Integer.toString(position + 1) + ")  "+ayah.toDetailedString());
 				textView2.setText(item.getComment());
 
 				return view;

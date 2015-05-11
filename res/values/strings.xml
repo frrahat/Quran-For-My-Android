@@ -6,7 +6,7 @@
     <string name="action_showSurahList">Show List of Surahs</string>
     <string name="action_addBookmark">Add Bookmark</string>
     <string name="action_showAllBookmarks">Show All Bookmarks</string>
-    <string name="action_copyAll">Copy The Texts To Clipboard</string>
+    <string name="action_getFullText">Get the Text and Copy</string>
     <string name="action_additText">Additional Texts</string>
     <string name="action_showHelp">Help</string>
     <string name="action_settings">Settings</string>
@@ -24,15 +24,12 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_info">Info</string>
     <string name="title_activity_sura_list">List of surahs</string>
-    
     <string name="title_textSelection">Primary Text Selection</string>
     <string name="summary_textSelection">Text to be displayed first</string>
-    
     <string name="title_scndryTxtSelection">Secondary Text Selection</string>
     <string name="summary_scndryTxtSelection">Text to be displayed second or below</string>
-
     <string name="text_invalid_input">Invalid Input.\nSee Help Option for correct input method.</string>
-    
+
     <string-array name="array_textSelection">
         <item>Word By Word</item>
         <item>Arabic Text</item>
@@ -64,7 +61,7 @@
 	    <item >2</item>
 	    <item >3</item>
 	    <item >4</item>
-	    <item >5</item>
+	    <item >5</item>
         -->
         <item>6</item>
         <item>7</item>
@@ -127,25 +124,22 @@
 
     <string name="title_setFonts">Set Fonts</string>
     <string name="summary_setFonts">Set better Fonts For the Primary Texts</string>
-    
     <string name="title_prefActionOnStart">Set Preferred Action On Start</string>
     <string name="summary_prefActionOnStart">Set the action to be performed by the app on start</string>
-    
+
     <string-array name="array_prefActionOnStart">
         <item>None</item>
         <item>Show Surah List</item>
         <item>Show a Randomly Picked Ayah</item>
     </string-array>
-    
     <string-array name="array_valuesActionOnStart">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
-    
+
     <string name="title_showTextSelectionOnStart">Choose Primary Text On Start</string>
     <string name="summary_showTextSelectionOnStart">Tick to set Primary Text on Start</string>
-    
     <string name="title_confirmBeforeExit">Confirm Before Exit</string>
 
     <string-array name="array_maxAyahInPage">
@@ -158,7 +152,6 @@
     </string-array>
 
     <string name="title_maxAyahInPage">Max Ayahs In A Page</string>
-    
     <string name="title_pgsToSkpOnLClick">No. Of Pages To Skip On Long Click</string>
     <string name="summary_pgsToSkipOnLClick">No. of pages to skip when prev or next button is pressed for long</string>
 
@@ -174,18 +167,16 @@
     <string name="title_activity_addit_text">Additional Text Files</string>
     <string name="txt_but_addAdditText">Add A New Text File</string>
     <string name="title_activity_file_item_edit">Edit Additional File</string>
-
     <string name="text_textViewFileEdit">Edit File Name</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_bookmark_display">Bookmarks</string>
     <string name="text_button_bookmarksDisplay">Display All Bookmarks</string>
     <string name="title_activity_bookmark_edit">Edit Bookmark</string>
-    <string name="hint_bookmarkEditText">Additional Note</string>
+    <string name="hint_bookmarkEditText">Add Additional Note or Comment</string>
     <string name="text_button_showSurahList">Surah List</string>
-    
     <string name="title_searchOperandTextSelection">Select Search Operand text</string>
-	<string name="summary_searchOperandTextSelection">Text(s) on which searching will be operated in search mode</string>
-    
+    <string name="summary_searchOperandTextSelection">Text(s) on which searching will be operated in search mode</string>
+
     <string-array name="array_searchOperandText">
         <item>Only English Text</item>
         <item>Primary/Secondary Text</item>
@@ -197,5 +188,7 @@
     <string name="txt_textView_fontSetting">Choose Preferred Fonts for the texts when selected as the Primary Text</string>
     <string name="title_activity_font_list">Available Fonts</string>
     <string name="text_button_addMoreFontFiles">Add More Font Files</string>
+    
+    <string name="title_activity_copy_text">Get Text And Copy</string>
 
 </resources>

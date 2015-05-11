@@ -72,7 +72,7 @@ public class AdditTextActivity extends Activity {
 			return;
 		}		
 		
-		totalAyahs=SuraInformation.totalAyahsUpto(114);
+		totalAyahs=SurahInformationContainer.totalAyahsUpto(114);
 		dataChanged=false;
         updateNoOfFilesTextView();
 		

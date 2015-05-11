@@ -11,8 +11,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +47,7 @@ public class MainActivity extends Activity {
 	private SharedPreferences sharedPrefs;
 
 	private EditText commandText;
-	private EditText mainText;
+	private static EditText mainText;
 	private ScrollView scrollView;
 
 	private Button prevButton;
@@ -68,10 +66,10 @@ public class MainActivity extends Activity {
 	// for loadinfg texts
 	public static final int Max_Quran_Texts = 10; 
 	//quranText[0] will be always empty
-	private QuranText[] allQuranTexts;
+	private static QuranText[] allQuranTexts;
 	
-	private QuranText primaryText;
-	private QuranText secondaryText;
+	private static QuranText primaryText;
+	private static QuranText secondaryText;
 	/*
 	 * allQuranText is initialized by this code: if (index == 0) isArabic =
 	 * true; Log.i("init", "loading file, index: " + index);
@@ -82,16 +80,16 @@ public class MainActivity extends Activity {
 	//resourceIDs[0] never used, like QuranText[0]
 	private int[] resourceIDs = { -1,R.raw.quran_uthmani, R.raw.en_yusufali};
 
-	private final int Word_Info_Index = 0;
-	private final int Arabic_Text_Index = 1;
-	private final int English_Text_Index = 2;
+	private final static int Word_Info_Index = 0;
+	private final static int Arabic_Text_Index = 1;
+	private final static int English_Text_Index = 2;
 	public static final int Total_Default_Quran_Texts = 3;
 	
 	private final int Search_Operand_Only_English=0;
 	private final int Search_Operand_Pri_And_Secondary=1;
 	private final int Search_Operand_All=2;
 
-	private int PRIMARY_TEXT_INDEX;
+	private static int PRIMARY_TEXT_INDEX;
 	private int SECONDARY_TEXT_INDEX = Word_Info_Index;
 	private int Search_Operand_Text_Id=Search_Operand_Pri_And_Secondary;
 	private int MAX_SEARCH_COUNT;
@@ -100,7 +98,7 @@ public class MainActivity extends Activity {
 
 	// for font faces
 	public static final int totalDefaultTypefaces=4;
-	private Typeface defaultTypefaces[];
+	private static Typeface defaultTypefaces[];
 	private static String defaultTypefaceNames[];
 
 	private boolean isInSearchMode;
@@ -236,12 +234,16 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-
+		
+		//initialize static values
+		SurahInformationContainer.loadAllSuraInfos(MainActivity.this);
 		FileItemContainer.initializeFileItems(getApplicationContext());
 		//to pass the setTextTypeFace when prefs are updated in updatePrefs()
 		FontSettingActivity.setDataChanged(true);
 		
 		WordInfoLoader.returnToInitialState();
+		
+		
 		allQuranTexts = new QuranText[Max_Quran_Texts];
 		// loading Quran Text files
 		// loadAllFiles();
@@ -372,6 +374,7 @@ public class MainActivity extends Activity {
 				Ayah ayah=CUR_INPUT_COMMAND.ayah;
 				intent.putExtra("suraIndex", ayah.suraIndex);
 				intent.putExtra("ayahIndex", ayah.ayahIndex);
+
 				if(PRIMARY_TEXT_INDEX!=Word_Info_Index){
 					intent.putExtra("text", primaryText.getQuranText(ayah));
 				}else if(secondaryText!=null){
@@ -389,8 +392,11 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(this, BookmarkDisplayActivity.class);
 			this.startActivityForResult(intent, REQUEST_BookmarksDisplay);
 			return true;
-		} if (id == R.id.action_copyAll) {
-			copyAllToClipBoard();
+		} if (id == R.id.action_getFullText) {
+			Intent intent=new Intent(MainActivity.this,CopyTextActivity.class);
+			intent.putExtra("text", mainText.getText().toString());
+
+			this.startActivity(intent);
 			return true;
 		} if (id == R.id.action_additText) {
 			Intent intent = new Intent(this, AdditTextActivity.class);
@@ -530,12 +536,12 @@ public class MainActivity extends Activity {
 				mainText.append("All data haven't yet been loaded. Please Wait "
 						+ "a little and enter your command again.");
 			} else {
-				printWordInfo(CUR_INPUT_COMMAND.ayah);
+				mainText.append(getWordInfoText(CUR_INPUT_COMMAND.ayah));
 			}
 
 		} else {// other text
 			if (primaryText != null)
-				mainText.append("[" + ayah.toString() + "] "
+				mainText.append("[" + ayah.toDetailedString() + "]\n    "
 						+ primaryText.getQuranText(ayah)
 						+ "\n");
 			else {
@@ -544,7 +550,7 @@ public class MainActivity extends Activity {
 		}
 
 		if (secondaryText != null) {
-			mainText.append("\n[" + ayah.toString() + "] "
+			mainText.append("\n[" + ayah.toDetailedString() + "]\n    "
 					+ secondaryText.getQuranText(ayah)
 					+ "\n");
 		}
@@ -639,7 +645,7 @@ public class MainActivity extends Activity {
 				Ayah ayah = listOfAyahs.get(i);
 
 				// printing text is primaryText;
-				sb.append("[" + ayah.toString() + "] "
+				sb.append("[" + ayah.toDetailedString() + "]\n    "
 						+ primaryText.getQuranText(ayah)
 						+ "\n");
 
@@ -647,11 +653,8 @@ public class MainActivity extends Activity {
 
 				// Secondary text selected , should not be word by word text
 				if (SECONDARY_TEXT_INDEX != Word_Info_Index) {
-					sb.append("["
-							+ ayah.toString()
-							+ "] "
-							+ secondaryText
-									.getQuranText(ayah) + "\n");
+					sb.append("[" + ayah.toDetailedString() + "]\n    "
+							+ secondaryText.getQuranText(ayah) + "\n");
 
 					sb.append("\n\n");
 				}
@@ -921,16 +924,6 @@ public class MainActivity extends Activity {
 		}	
 	}
 
-	
-
-	private void copyAllToClipBoard() {
-		ClipData clip = ClipData.newPlainText("text", mainText.getText());
-		ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-		clipboard.setPrimaryClip(clip);
-
-		Toast.makeText(getApplicationContext(), "Full Text Copied",
-				Toast.LENGTH_SHORT).show();
-	}
 
 	/*
 	 * private void lowerVersionAlert(){ Toast.makeText(getApplicationContext(),
@@ -959,9 +952,9 @@ public class MainActivity extends Activity {
 		defaultTypefaceNames[3]="siyamrupali.ttf";
 	}
 
-	private List<WordInformation> getInfoOfWords(Ayah ayah) {
+	private static List<WordInformation> getInfoOfWords(Ayah ayah) {
 		// index of first ayah of the sura in all ayah sets
-		int indexOfFirstAyah = SuraInformation.totalAyahsUpto(ayah.suraIndex);
+		int indexOfFirstAyah = SurahInformationContainer.totalAyahsUpto(ayah.suraIndex);
 		int indexOfSelectedAyah = indexOfFirstAyah + ayah.ayahIndex;
 		// address in the info list of that selected ayah
 		// index of the first word of this ayah
@@ -984,14 +977,14 @@ public class MainActivity extends Activity {
 
 	}
 
-	private void printWordInfo(Ayah ayah) {
+	private static String getWordInfoText(Ayah ayah) {
 		String arabicAyahTextWords[] = allQuranTexts[Arabic_Text_Index].getQuranText(ayah)
 				.split(" ");
 		List<WordInformation> wordsOfAyah = getInfoOfWords(ayah);
 		int wordIndexToDisplay = 0;
 		int wordInfoIndexToDisplay = 0;
 
-		String text = "[" + ayah.toString() + "]\n\n";
+		String text = "[" + ayah.toDetailedString() + "]\n\n";
 		while (wordIndexToDisplay < arabicAyahTextWords.length) {
 
 			// arabic text
@@ -1024,7 +1017,7 @@ public class MainActivity extends Activity {
 		}
 
 		text += "\n==========\n";
-		mainText.append(text);
+		return text;
 	}
 
 	private void scrollToTop() {
@@ -1209,7 +1202,7 @@ public class MainActivity extends Activity {
 			Log.d("new task textName",textName);
 			progressDialog=new ProgressDialog(context);
 			progressDialog.setIndeterminate(true);
-			progressDialog.setMessage("Loading "+textName +"...");
+			progressDialog.setMessage("Loading "+textName);
 			progressDialog.setCancelable(false);
 
 			//progressDialog.setCancelable(false);
@@ -1415,6 +1408,36 @@ public class MainActivity extends Activity {
 	public static String getDefaultTypefaceName(int index){
 		return defaultTypefaceNames[index];
 	}
+	public static Typeface getDefaultTypeface(int index){
+		return defaultTypefaces[index];
+	}
+	
+	public static Typeface getMainTextTypeface(){
+		return mainText.getTypeface();
+	}
+	
+	public static String getAyahText(Ayah ayah){
+		String text="";
+		if (PRIMARY_TEXT_INDEX == Word_Info_Index)// word info
+		{
+			text+=getWordInfoText(ayah);
+
+		} else {// other text
+			if (primaryText != null){
+				text+="\n[" + ayah.toDetailedString() + "]\n    "
+						+ primaryText.getQuranText(ayah)
+						+ "\n";
+			}	
+		}
+
+		if (secondaryText != null) {
+			text+="\n[" + ayah.toDetailedString() + "]\n    "
+					+ secondaryText.getQuranText(ayah)
+					+ "\n";
+		}
+		
+		return text;
+	}
 	
 	private void executeOnStartActions(){
 		int actionIndexOnStart=Integer.parseInt(sharedPrefs.getString(getString(R.string.key_prefActionOnStart),
@@ -1435,7 +1458,7 @@ public class MainActivity extends Activity {
 	private Ayah getARandomAyah(){
 		Random generator=new Random();
 		int suraIndex=generator.nextInt(114);
-		int ayahIndex=generator.nextInt(SuraInformation.totalAyas[suraIndex]);
+		int ayahIndex=generator.nextInt(SurahInformationContainer.totalAyas[suraIndex]);
 		
 		return new Ayah(suraIndex, ayahIndex);
 	}

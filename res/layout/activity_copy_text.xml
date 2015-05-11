@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/holo_orange_dark"
+    tools:context="com.frrahat.quransimple.CopyTextActivity" >
+
+    <ScrollView
+        android:id="@+id/scrollView_copyActivity"
+        style="@style/scrollerThumb"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editText_copyActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_dark"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textCursorDrawable="@drawable/cursor_color" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button_copyActivityCopy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Copy Full Text" />
+
+        <Button
+            android:id="@+id/button_copyActivityBack"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Back To Home Screen" />
+
+    </LinearLayout>
+
+</LinearLayout>

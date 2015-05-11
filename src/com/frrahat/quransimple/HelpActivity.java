@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.EditText;
 
 public class HelpActivity extends Activity {

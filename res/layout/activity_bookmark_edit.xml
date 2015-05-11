@@ -20,17 +20,14 @@
         android:text="failure"
         android:textColor="@android:color/holo_green_dark"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
         
-        <Button
-            android:id="@+id/button_bookmarkEditClearComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear Text" />
+    <Button
+        android:id="@+id/button_bookmarkEditClearComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Text"
+        android:layout_gravity="end" />
 
-    </LinearLayout>
 	
 	<ScrollView
         android:id="@+id/scrollView_bookmarkCommentEdit"

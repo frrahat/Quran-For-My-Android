@@ -18,22 +18,13 @@ import android.content.Context;
  *	Edited : 06-02-2015
  *Edited for android:24-FEB-2015
  */
-public class SuraInformation {
+public class SurahInformationContainer {
 	
 	/*
-	 * Loads information of all the suras for informationPanel
+	 * Loads information of all the surahs for informationPanel
 	 */
-	//private static String suraInfoFile="files/texts/sura-information.txt";
-	int id;
-	String title;
-	String meaning;
-	public int ayahCount;
-	//String descent;
-	//int revealationOrder;
-	String titleReference;
-	//String[] mainTheme;
 	
-	private static ArrayList<SuraInformation>suraInformations;
+	private static ArrayList<SurahInformation>surahInformations;
 	
 	public static int[] totalAyas={7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123,
 			111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93,
@@ -44,23 +35,15 @@ public class SuraInformation {
 			11, 11, 8, 3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6};
 	
 	
-	public SuraInformation(int id,String title,String meaning,int ayahCount)
-	{
-		this.id=id;
-		this.title=title;
-		this.meaning=meaning;
-		this.ayahCount=ayahCount;
-	}
-	
 	public static void loadAllSuraInfos(Context context){
 		String suraNames[] = context.getResources().getStringArray(R.array.sura_name);
 		String titleMeanings[]=context.getResources().getStringArray(R.array.sura_title_meanings);
 		
-		suraInformations=new ArrayList<>();
+		surahInformations=new ArrayList<>();
 		
 		for(int i=0;i<114;i++){
-			SuraInformation s=new SuraInformation(i+1,suraNames[i],titleMeanings[i],totalAyas[i]);
-			suraInformations.add(s);
+			SurahInformation s=new SurahInformation(i+1,suraNames[i],titleMeanings[i],totalAyas[i]);
+			surahInformations.add(s);
 		}
 	}
 	
@@ -77,11 +60,11 @@ public class SuraInformation {
 		return sum;
 	}
 	
-	public static ArrayList<SuraInformation> getSuraInformations(){
-		return suraInformations;
+	public static ArrayList<SurahInformation> getSuraInformations(){
+		return surahInformations;
 	}
 	
-	public static SuraInformation getSuraInfo(int index){
-		return suraInformations.get(index);
+	public static SurahInformation getSuraInfo(int index){
+		return surahInformations.get(index);
 	}
 }

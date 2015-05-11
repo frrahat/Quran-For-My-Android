@@ -33,7 +33,7 @@ public class SuraListActivity extends Activity {
 	private InputMethodManager imm;
 	private boolean searchMode;
 	
-	private ArrayList<SuraInformation>displayedSurahInfos;
+	private ArrayList<SurahInformation>displayedSurahInfos;
 	private BaseAdapter adapter;
 	
 	@Override
@@ -62,11 +62,12 @@ public class SuraListActivity extends Activity {
 			}
 		});
 		
-		if(SuraInformation.getSuraInformations()==null){
-			SuraInformation.loadAllSuraInfos(SuraListActivity.this);
-		}
+		//loaded in main activity on creation
+		/*if(SurahInformationContainer.getSuraInformations()==null){
+			SurahInformationContainer.loadAllSuraInfos(SuraListActivity.this);
+		}*/
 		
-		displayedSurahInfos=SuraInformation.getSuraInformations();
+		displayedSurahInfos=SurahInformationContainer.getSuraInformations();
 		
 		suraListView=(ListView) findViewById(R.id.listView);
 		
@@ -85,7 +86,7 @@ public class SuraListActivity extends Activity {
 				TextView textView1=(TextView) view.findViewById(R.id.text1);
 				TextView textView2=(TextView) view.findViewById(R.id.text2);
 				
-				SuraInformation s=displayedSurahInfos.get(position);
+				SurahInformation s=displayedSurahInfos.get(position);
 				
 				textView1.setText(Integer.toString(s.id)+"."+s.title);
 				textView2.setText(s.meaning+" , total verses:"+
@@ -191,7 +192,7 @@ public class SuraListActivity extends Activity {
 		displayedSurahInfos=new ArrayList<>();
 		
 		for(int i=0;i<114;i++){
-			SuraInformation s=SuraInformation.getSuraInfo(i);
+			SurahInformation s=SurahInformationContainer.getSuraInfo(i);
 			String operandString=s.title+" "+s.meaning;
 			if(contains(operandString, query)){
 				displayedSurahInfos.add(s);
@@ -228,7 +229,7 @@ public class SuraListActivity extends Activity {
 	
 	private void setListToDefault(){
 		if(displayedSurahInfos.size()!=114){
-			displayedSurahInfos=SuraInformation.getSuraInformations();
+			displayedSurahInfos=SurahInformationContainer.getSuraInformations();
 			adapter.notifyDataSetChanged();
 		}
 	}

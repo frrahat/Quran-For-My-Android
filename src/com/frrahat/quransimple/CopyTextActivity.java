@@ -10,20 +10,19 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
+/**
+ * @author Rahat
+ *
+ */
 public class CopyTextActivity extends Activity {
 	
 	private EditText editText;
-	private Button copyFullTextButton;
-	private Button backButton;
 	private InputMethodManager imm;
 	private ActionBar actionBar;
 	
@@ -50,10 +49,13 @@ public class CopyTextActivity extends Activity {
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				hideSoftKeyBoard();
+				hideSoftKeyBoard(inputVerseEditText);
 				String inputText=inputVerseEditText.getText().toString();
 				if(inputText!=null){
 					Ayah appendingAyah=processInputString(inputText);
+					if(appendingAyah==null){
+						return false;
+					}
 					editText.append(MainActivity.getAyahText(appendingAyah)+"\n");
 					inputVerseEditText.setText(appendingAyah.toString());
 					Toast.makeText(CopyTextActivity.this, "Appended Ayah ["+appendingAyah.toString()+"]"
@@ -61,7 +63,7 @@ public class CopyTextActivity extends Activity {
 				}else{
 					Toast.makeText(CopyTextActivity.this, R.string.text_invalid_input, Toast.LENGTH_SHORT).show();
 				}
-				return false;
+				return true;
 			}
 		});
 		
@@ -75,24 +77,6 @@ public class CopyTextActivity extends Activity {
 		}else{
 			editText.setText("No Text Found.");
 		}
-		
-		copyFullTextButton=(Button) findViewById(R.id.button_copyActivityCopy);
-		copyFullTextButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				copyAllToClipBoard();
-			}
-		});
-		
-		backButton=(Button) findViewById(R.id.button_copyActivityBack);
-		backButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 	}
 
 	@Override
@@ -115,12 +99,17 @@ public class CopyTextActivity extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_appendAyah) {
 			if(inputVerseMode){//clear search
-				hideSoftKeyBoard();
+				hideSoftKeyBoard(inputVerseEditText);
 				setInputVerseModeOff();
 			}
 			else{
 				setInputVerseModeModeOn();
 			}
+			return true;
+		}
+		if(id == R.id.action_copyFullText){
+			hideSoftKeyBoard(editText);
+			copyAllToClipBoard();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -135,8 +124,8 @@ public class CopyTextActivity extends Activity {
 				Toast.LENGTH_SHORT).show();
 	}
 	
-	private void hideSoftKeyBoard() {
-		imm.hideSoftInputFromWindow(inputVerseEditText.getWindowToken(), 0);
+	private void hideSoftKeyBoard(EditText editText) {
+		imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 	}
 	
 	

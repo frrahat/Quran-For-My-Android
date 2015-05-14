@@ -1,7 +1,7 @@
 package com.frrahat.quransimple;
 
 public class AyahInformationContainer {
-	public static String aayatESajdahString="***(Aayat e Sajdah)";
+	public static String aayatESajdahString="***(Aayat e Sajdah)***";
 	public static int aayatESajdahs[]={
 		7,206,
 		13,15,

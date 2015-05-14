@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="text_help">        
-        Quran For My Android" is a simple app that displays verses of Quran and word by word translation.
+        \"Quran For My Android\" is a simple app that displays verses of Quran and word by word translation.
         
-        \n***Input method***
+        \n\n***Input method***
         \nYou have to enter verse no. to display the texts.
         \nYou can enter verse no. in these forms:
-        \n\"Sura No.\":\"Start ayah No.\":\"End ayah No.\" (Example: 2:182:185)
-        \nOr, simply, \"Sura No.\":\"Ayah No\" (Example: 2:182)
+        \n\"Surah No.\":\"Start ayaah No.\":\"End ayaah No.\" (Example: 2:182:185)
+        \nOr, simply, \"Surah No.\":\"Ayaah No.\" (Example: 2:182)
         
         \n\n***Searching***
-        \nFor Searching a text, simply long press on the textfield, and search mode will be enabled. Then simply enter your target text in the textfield to search.
+        \nFor Enabling Searching a text, simply press long on the input textfield, and search mode will be enabled. Then simply enter your target text in the textfield to search.\n To get back to the verse mode, press long again on the input textfield.
         \nSearch Operand Text can be selected previously from the Setting.
         
-        \n\nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'
-        \nExample: [1,114] Paradise
+        \nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'
+        \nExample: [1,114] Moon
         
         \n\n***Smart Skipping***
 		\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n

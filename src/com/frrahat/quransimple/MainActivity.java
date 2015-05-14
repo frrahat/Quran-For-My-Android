@@ -472,8 +472,18 @@ public class MainActivity extends Activity {
 					Toast.makeText(
 							getBaseContext(),
 							"Couldn't apply ranged search\n"
-									+ "See Info for information.",
-							Toast.LENGTH_SHORT).show();
+									+ "See Help for correct searching procedure.",
+							Toast.LENGTH_LONG).show();
+				}
+				
+				if (input.length() < 2) {
+					Toast.makeText(
+							this,
+							"Searching text should have to be a word "
+									+ "containing more than one letter",
+							Toast.LENGTH_LONG).show();
+
+					return null;
 				}
 
 			}
@@ -1457,9 +1467,25 @@ public class MainActivity extends Activity {
 	
 	private Ayah getARandomAyah(){
 		Random generator=new Random();
-		int suraIndex=generator.nextInt(114);
-		int ayahIndex=generator.nextInt(SurahInformationContainer.totalAyas[suraIndex]);
+		int allTotalAyahs=SurahInformationContainer.getTotalAyahsUptoSurah114();
+		int abstractAyahIndex=generator.nextInt(allTotalAyahs);
 		
-		return new Ayah(suraIndex, ayahIndex);
+		int surahIndex=0;
+		int ayahIndex=0;
+		int totalAyahsUptoSurahIndex=SurahInformationContainer.totalAyahs[surahIndex];
+		
+		for(int i=0;i<113;i++){
+			if(abstractAyahIndex<totalAyahsUptoSurahIndex){
+				break;
+			}
+			ayahIndex=totalAyahsUptoSurahIndex;
+			
+			surahIndex++;
+			totalAyahsUptoSurahIndex+=SurahInformationContainer.totalAyahs[surahIndex];
+		}
+		
+		ayahIndex=abstractAyahIndex-ayahIndex;
+		
+		return new Ayah(surahIndex, ayahIndex);
 	}
 }

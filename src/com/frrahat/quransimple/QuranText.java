@@ -47,7 +47,7 @@ public class QuranText {
 			quranText=new String[114][];
 			int suraIndex=0;
 			int ayahRead=0;
-			int ayahCount=SurahInformationContainer.totalAyas[0];
+			int ayahCount=SurahInformationContainer.totalAyahs[0];
 			quranText[0]=new String[ayahCount];
 			
 			while((text=reader.readLine())!=null)
@@ -74,7 +74,7 @@ public class QuranText {
 						break;
 					suraIndex++;
 					ayahRead=0;
-					ayahCount=SurahInformationContainer.totalAyas[suraIndex];
+					ayahCount=SurahInformationContainer.totalAyahs[suraIndex];
 					quranText[suraIndex]=new String[ayahCount];
 				}
 			}
@@ -174,7 +174,7 @@ public class QuranText {
 	    //return the length of S
 	    int count=0;
 	    for(int i=startSuraIndex;i<=endSuraIndex;i++){
-	    	for(int j=0,k=SurahInformationContainer.totalAyas[i];j<k;j++){
+	    	for(int j=0,k=SurahInformationContainer.totalAyahs[i];j<k;j++){
 	    		Ayah ayah=new Ayah(i,j);
 	    		if(searchInAyah(ayah, query, Table)){
 	    			matchedAyahs.add(ayah);

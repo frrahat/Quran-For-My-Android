@@ -41,24 +41,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/button_copyActivityCopy"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Copy Full Text" />
-
-        <Button
-            android:id="@+id/button_copyActivityBack"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Back To Home Screen" />
-
-    </LinearLayout>
-
 </LinearLayout>

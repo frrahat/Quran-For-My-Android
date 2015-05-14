@@ -24,9 +24,10 @@ public class SurahInformationContainer {
 	 * Loads information of all the surahs for informationPanel
 	 */
 	
+	private static int totalAyahsUptoSurah114=0;
 	private static ArrayList<SurahInformation>surahInformations;
 	
-	public static int[] totalAyas={7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123,
+	public static int[] totalAyahs={7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123,
 			111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118, 64, 77, 227, 93,
 			88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59,
 			37, 35, 38, 29, 18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11,
@@ -42,7 +43,7 @@ public class SurahInformationContainer {
 		surahInformations=new ArrayList<>();
 		
 		for(int i=0;i<114;i++){
-			SurahInformation s=new SurahInformation(i+1,suraNames[i],titleMeanings[i],totalAyas[i]);
+			SurahInformation s=new SurahInformation(i+1,suraNames[i],titleMeanings[i],totalAyahs[i]);
 			surahInformations.add(s);
 		}
 	}
@@ -51,13 +52,21 @@ public class SurahInformationContainer {
 	 * returns total ayahs before the first ayah of the sura Index
 	 */
 	
-	public static int totalAyahsUpto(int suraIndex)
+	public static int totalAyahsUpto(int surahNo)
 	{
 		int sum=0;
-		for(int i=0;i<suraIndex;i++)
-			sum+=totalAyas[i];
+		for(int i=0;i<surahNo;i++)
+			sum+=totalAyahs[i];
 		
 		return sum;
+	}
+	
+	public static int getTotalAyahsUptoSurah114(){
+		if (totalAyahsUptoSurah114==0){
+			totalAyahsUptoSurah114=totalAyahsUpto(114);
+		}
+		
+		return totalAyahsUptoSurah114;
 	}
 	
 	public static ArrayList<SurahInformation> getSuraInformations(){

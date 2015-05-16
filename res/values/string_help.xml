@@ -10,7 +10,7 @@
         \nOr, simply, \"Surah No.\":\"Ayaah No.\" (Example: 2:182)
         
         \n\n***Searching***
-        \nFor Enabling Searching a text, simply press long on the input textfield, and search mode will be enabled. Then simply enter your target text in the textfield to search.\n To get back to the verse mode, press long again on the input textfield.
+        \nSearching Mode can be eanabled from the option menu or just by simply pressing long time on the input textfield.\nBut Searching cannot be done when the Primary text is Word By Word Text.
         \nSearch Operand Text can be selected previously from the Setting.
         
         \nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'

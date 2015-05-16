@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-
+		//TODO this function can be removed
 		commandText.setOnLongClickListener(new OnLongClickListener() {
 
 			@Override
@@ -304,6 +304,8 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		if(isInSearchMode){
 			menu.findItem(R.id.action_addBookmark).setVisible(false);
+			menu.findItem(R.id.action_showSurahList).setVisible(false);
+			menu.findItem(R.id.action_searchInText).setIcon(R.drawable.ic_clear_search);
 		}
 		return true;
 	}
@@ -368,7 +370,15 @@ public class MainActivity extends Activity {
 			this.startActivityForResult(SettingsActivity.start(this),
 					REQUEST_SETTINGS);
 			return true;
-		} if (id == R.id.action_addBookmark) {
+		}if (id == R.id.action_searchInText) {
+			commandText.setText("");
+			if (isInSearchMode) {
+				setSearchModeOff();
+			} else {
+				setSearchModeOn();
+			}
+			
+		}if (id == R.id.action_addBookmark) {
 			if(CUR_INPUT_COMMAND!=null && CUR_INPUT_COMMAND.inputMode==InputMode.MODE_VERSE){
 				Intent intent = new Intent(this, BookmarkEditActivity.class);
 				Ayah ayah=CUR_INPUT_COMMAND.ayah;
@@ -1239,8 +1249,7 @@ public class MainActivity extends Activity {
 				CUR_INPUT_COMMAND = new InputCommand(getARandomAyah(), 1);
 				mainText.setText("");
 				printSingleAyah(CUR_INPUT_COMMAND.ayah);
-				// send cursor to the end
-				commandText.setSelection(commandText.getText().length());
+
 				showARandomAyah=false;
 			}
 		}

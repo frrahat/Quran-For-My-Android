@@ -10,6 +10,13 @@
         android:title="@string/action_showSurahList"/>
     
     <item
+        android:id="@+id/action_searchInText"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_ab_search"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_searchInText"/>
+    
+    <item
         android:id="@+id/action_addBookmark"
         android:orderInCategory="100"
         android:icon="@drawable/bookmark"

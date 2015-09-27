@@ -255,20 +255,20 @@ public class BookmarkDisplayActivity extends Activity {
 	
 	class BookmarksloadingTask extends AsyncTask<Void, Void, Void>{
 		
-		ProgressDialog progressDialog;
+		//ProgressDialog progressDialog;
 		Context context;
 		
 		public BookmarksloadingTask(Context context) {
 			this.context=context;
-			progressDialog=new ProgressDialog(context);
-			progressDialog.setIndeterminate(true);
-			progressDialog.setMessage("Loading Bookmarks...");
+			//progressDialog=new ProgressDialog(context);
+			//progressDialog.setIndeterminate(true);
+			//progressDialog.setMessage("Loading Bookmarks...");
 		}
 		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			progressDialog.show();
+			//progressDialog.show();
 		}
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -279,7 +279,7 @@ public class BookmarkDisplayActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			progressDialog.dismiss();
+			//progressDialog.dismiss();
 			adapter.notifyDataSetChanged();
 		}
 	}

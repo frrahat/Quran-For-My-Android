@@ -5,6 +5,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_showSurahList">Show List of Surahs</string>
     <string name="action_searchInText">Search</string>
+    <string name="action_recitationAudio_on">Turn On Recitaion Audio</string>
+    <string name="action_recitationAudio_off">Turn Off Recitaion Audio</string>
     <string name="action_addBookmark">Bookmark the ayaah</string>
     <string name="action_showAllBookmarks">Show All Bookmarks</string>
     <string name="action_getFullText">Get the Text and Copy</string>

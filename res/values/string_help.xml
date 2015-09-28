@@ -16,6 +16,11 @@
         \nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'
         \nExample: [1,114] Moon
         
+        \n\n***Recitation Audio***
+        \nTo listen to the recitation of each ayah, Audio Recitation should have to be Turned On from the option menu and also the audio file of the recitation (in .mp3 format) should have to be in the corresponding Audio folder.
+        \nDownloading new audio file feature is not available in this version. So audio files of ayahs should have to collected from external source (such as: everyayah.com) and put in the \"QuranForMyAndroid\\Audio\" folder through copy-paste operation.
+        \nFor Example suppose you have collected the audio files for surah Ikhlas, those are 112000.mp3,112001.mp3,... ..., 112004.mp3. Now Simply copy this files to the \"QuranForMyAndroid\\Audio\" folder, you are done.    
+        
         \n\n***Smart Skipping***
 		\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n
 		

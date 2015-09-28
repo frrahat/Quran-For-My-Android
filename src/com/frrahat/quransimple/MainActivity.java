@@ -1,5 +1,6 @@
 package com.frrahat.quransimple;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +13,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
@@ -43,6 +48,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	public static String storageFolderName;
+	private final String AudioStorageDirName="QuranForMyAndroid/Audio";
+	private File audioStorageDir;
+	
 	private InputMethodManager imm;
 	private SharedPreferences sharedPrefs;
 
@@ -102,6 +110,9 @@ public class MainActivity extends Activity {
 	private static String defaultTypefaceNames[];
 
 	private boolean isInSearchMode;
+	private boolean isRecitaionAudioOn;
+	
+	private MediaPlayer mplayer;
 
 	private final int REQUEST_SETTINGS = 0;
 	private final int REQUEST_SURAH_LIST = 1;
@@ -120,7 +131,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		storageFolderName="."+getApplicationContext().getPackageName();
-
 		initializeComponents();
 	}
 
@@ -275,6 +285,13 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
+	protected void onStop() {
+		if(mplayer!=null){
+			mplayer.release();
+		}
+		super.onStop();
+	}
+	@Override
 	public void onBackPressed() {
 		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
 			tryExitApp();
@@ -302,7 +319,11 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		if(isInSearchMode){
+		if(isRecitaionAudioOn){
+			menu.findItem(R.id.action_recitationAudio).setIcon(R.drawable.ic_volume)
+			.setTitle(R.string.action_recitationAudio_off);
+		}
+		else if(isInSearchMode){
 			menu.findItem(R.id.action_addBookmark).setVisible(false);
 			menu.findItem(R.id.action_showSurahList).setVisible(false);
 			menu.findItem(R.id.action_searchInText).setIcon(R.drawable.ic_clear_search);
@@ -366,19 +387,29 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(this, SuraListActivity.class);
 			this.startActivityForResult(intent, REQUEST_SURAH_LIST);
 			return true;
-		} if (id == R.id.action_settings) {
+		} 
+		if (id == R.id.action_settings) {
 			this.startActivityForResult(SettingsActivity.start(this),
 					REQUEST_SETTINGS);
 			return true;
-		}if (id == R.id.action_searchInText) {
+		}
+		if (id == R.id.action_searchInText) {
 			commandText.setText("");
 			if (isInSearchMode) {
 				setSearchModeOff();
 			} else {
 				setSearchModeOn();
 			}
+		}
+		if (id == R.id.action_recitationAudio) {
+			if (isRecitaionAudioOn) {
+				setRecitationAudioOff();
+			} else {
+				setRecitationAudioOn();
+			}
 			
-		}if (id == R.id.action_addBookmark) {
+		}
+		if (id == R.id.action_addBookmark) {
 			if(CUR_INPUT_COMMAND!=null && CUR_INPUT_COMMAND.inputMode==InputMode.MODE_VERSE){
 				Intent intent = new Intent(this, BookmarkEditActivity.class);
 				Ayah ayah=CUR_INPUT_COMMAND.ayah;
@@ -398,25 +429,30 @@ public class MainActivity extends Activity {
 			}
 			
 			return true;
-		} if (id == R.id.action_showAllBookmark) {
+		} 
+		if (id == R.id.action_showAllBookmark) {
 			Intent intent = new Intent(this, BookmarkDisplayActivity.class);
 			this.startActivityForResult(intent, REQUEST_BookmarksDisplay);
 			return true;
-		} if (id == R.id.action_getFullText) {
+		} 
+		if (id == R.id.action_getFullText) {
 			Intent intent=new Intent(MainActivity.this,CopyTextActivity.class);
 			intent.putExtra("text", mainText.getText().toString());
 
 			this.startActivity(intent);
 			return true;
-		} if (id == R.id.action_additText) {
+		} 
+		if (id == R.id.action_additText) {
 			Intent intent = new Intent(this, AdditTextActivity.class);
 			this.startActivity(intent);
 			return true;
-		} if (id == R.id.action_showInfo) {
+		} 
+		if (id == R.id.action_showInfo) {
 			Intent intent = new Intent(this, InfoActivity.class);
 			this.startActivity(intent);
 			return true;
-		} if (id == R.id.action_showHelp) {
+		} 
+		if (id == R.id.action_showHelp) {
 			Intent intent = new Intent(this, HelpActivity.class);
 			this.startActivity(intent);
 			return true;
@@ -543,6 +579,137 @@ public class MainActivity extends Activity {
 		return new InputCommand(inputAyah, totalToPrint);
 	}
 
+	
+	//audio=================
+	private void prepareAudioStorageDir(){
+		String state=Environment.getExternalStorageState();
+		// has writable external  storage
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			audioStorageDir = new File(Environment.getExternalStorageDirectory(),AudioStorageDirName);
+		} else {
+			ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+			audioStorageDir = contextWrapper.getDir(AudioStorageDirName,
+					Context.MODE_PRIVATE);
+		}
+		
+		if(!audioStorageDir.exists()){
+			audioStorageDir.mkdirs();
+		}else{//check if new 10 char file added, if yes then shorten
+			new AudioFileFolderizingTask(this).execute();
+		}
+	}
+	
+	private void playAnAyah(Ayah ayah){
+		if(mplayer!=null && mplayer.isPlaying()){
+				mplayer.stop();
+		}
+		File mp3file=new File(audioStorageDir,Integer.toString(ayah.suraIndex+1)+"/"+
+				Integer.toString(ayah.ayahIndex+1)+".mp3");	
+		mplayer.reset();
+		try {
+			mplayer.setDataSource(mp3file.getPath());
+			mplayer.prepare();
+			mplayer.setOnPreparedListener(new OnPreparedListener() {
+				
+				@Override
+				public void onPrepared(MediaPlayer mp) {
+					mplayer.start();
+				}
+			});
+		}
+		catch (IOException e) {
+			Toast.makeText(this,"Audio File Not Found in the folder: "+AudioStorageDirName+" . See HELP for instructions.", Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+		catch (IllegalStateException e) {
+			Toast.makeText(this, "Illegal State", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+	}
+	
+	private void setRecitationAudioOn(){
+		isRecitaionAudioOn=true;
+		Toast.makeText(this, "Recitation On", Toast.LENGTH_SHORT).show();
+		invalidateOptionsMenu();
+		if(audioStorageDir==null){
+			prepareAudioStorageDir();
+			mplayer=new MediaPlayer();
+		}
+	}
+	
+	private void setRecitationAudioOff(){
+		isRecitaionAudioOn=false;
+		if(mplayer!=null && mplayer.isPlaying()){
+			mplayer.stop();
+		}
+		Toast.makeText(this, "Recitation Off", Toast.LENGTH_SHORT).show();
+		invalidateOptionsMenu();
+	}
+
+	class AudioFileFolderizingTask extends AsyncTask<Void, Void, Void>{
+		
+		ProgressDialog progressDialog;
+		public AudioFileFolderizingTask(Context context) {
+			progressDialog=new ProgressDialog(context);
+			progressDialog.setIndeterminate(true);
+			progressDialog.setMessage("Preparing New Audio Files");
+			progressDialog.setCancelable(false);
+		}
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDialog.show();
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			File files[]=audioStorageDir.listFiles();
+			
+			for(int i=0;i<files.length;i++){
+				if(files[i].isFile()){
+					String fileName= files[i].getName();
+					//long .mp3 file name , 6char+ ".mp3"=10 chars
+					if(fileName.length()==10 && fileName.endsWith(".mp3")){
+						int surahNum=0;
+						try{
+							surahNum=Integer.parseInt(fileName.substring(0,3));//check if it contains all integer digits					
+						}catch(NumberFormatException ne){
+							ne.printStackTrace();
+						}
+						
+						if(surahNum>0){
+							//moving the file
+							File destFileDir=new File(audioStorageDir+"/"+
+									Integer.toString(surahNum));
+							
+							if(!destFileDir.exists()){
+								destFileDir.mkdir();
+							}
+							
+							int k;
+							for(k=3;k<5 && fileName.charAt(k) =='0';k++);
+							String ayahFileName=fileName.substring(k);
+							File destFile=new File(destFileDir,ayahFileName);
+							
+							files[i].renameTo(destFile);
+						}
+					}
+				}
+			}
+			
+			return null;
+		}
+		
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			progressDialog.dismiss();
+		}
+	}
+	
+	//=====================================
+	//TODO
 	private void printSingleAyah(Ayah ayah) {
 
 		mainText.setText("");
@@ -576,6 +743,9 @@ public class MainActivity extends Activity {
 		}
 
 		scrollToTop();
+		if(isRecitaionAudioOn){
+			playAnAyah(ayah);//TODO check if looping occurs
+		}
 	}
 
 	private void printAllAyahs() {
@@ -1075,8 +1245,7 @@ public class MainActivity extends Activity {
 		
 		invalidateOptionsMenu();
 	}
-
-
+	
 	private void showTextSelectionDialog() {
 		AlertDialog.Builder textSelectorBuilder = new AlertDialog.Builder(this);
 
@@ -1476,7 +1645,9 @@ public class MainActivity extends Activity {
 	
 	private Ayah getARandomAyah(){
 		Random generator=new Random();
-		int allTotalAyahs=SurahInformationContainer.getTotalAyahsUptoSurah114();
+		int surahIndex=generator.nextInt(114);
+		int ayahIndex=generator.nextInt(SurahInformationContainer.totalAyahs[surahIndex]);
+		/*int allTotalAyahs=SurahInformationContainer.getTotalAyahsUptoSurah114();
 		int abstractAyahIndex=generator.nextInt(allTotalAyahs);
 		
 		int surahIndex=0;
@@ -1493,7 +1664,7 @@ public class MainActivity extends Activity {
 			totalAyahsUptoSurahIndex+=SurahInformationContainer.totalAyahs[surahIndex];
 		}
 		
-		ayahIndex=abstractAyahIndex-ayahIndex;
+		ayahIndex=abstractAyahIndex-ayahIndex;*/
 		
 		return new Ayah(surahIndex, ayahIndex);
 	}

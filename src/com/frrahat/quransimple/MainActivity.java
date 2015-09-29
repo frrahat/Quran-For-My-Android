@@ -169,25 +169,11 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-		//TODO this function can be removed
-		commandText.setOnLongClickListener(new OnLongClickListener() {
 
-			@Override
-			public boolean onLongClick(View v) {
-				commandText.setText("");
-				if (isInSearchMode) {
-					setSearchModeOff();
-				} else {
-					setSearchModeOn();
-				}
-
-				return true;
-			}
-		});
 
 		mainText.setFocusable(false);
 		mainText.setLongClickable(false);
-
+		
 		prevButton = (Button) findViewById(R.id.button_prev);
 		nextButton = (Button) findViewById(R.id.button_next);
 
@@ -244,7 +230,6 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-		
 		//initialize static values
 		SurahInformationContainer.loadAllSuraInfos(MainActivity.this);
 		FileItemContainer.initializeFileItems(getApplicationContext());
@@ -285,13 +270,6 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	protected void onStop() {
-		if(mplayer!=null){
-			mplayer.release();
-		}
-		super.onStop();
-	}
-	@Override
 	public void onBackPressed() {
 		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
 			tryExitApp();
@@ -323,7 +301,7 @@ public class MainActivity extends Activity {
 			menu.findItem(R.id.action_recitationAudio).setIcon(R.drawable.ic_volume)
 			.setTitle(R.string.action_recitationAudio_off);
 		}
-		else if(isInSearchMode){
+		if(isInSearchMode){
 			menu.findItem(R.id.action_addBookmark).setVisible(false);
 			menu.findItem(R.id.action_showSurahList).setVisible(false);
 			menu.findItem(R.id.action_searchInText).setIcon(R.drawable.ic_clear_search);
@@ -601,11 +579,12 @@ public class MainActivity extends Activity {
 	
 	private void playAnAyah(Ayah ayah){
 		if(mplayer!=null && mplayer.isPlaying()){
-				mplayer.stop();
+			mplayer.stop();
 		}
+		mplayer.reset();
 		File mp3file=new File(audioStorageDir,Integer.toString(ayah.suraIndex+1)+"/"+
 				Integer.toString(ayah.ayahIndex+1)+".mp3");	
-		mplayer.reset();
+		
 		try {
 			mplayer.setDataSource(mp3file.getPath());
 			mplayer.prepare();
@@ -633,14 +612,17 @@ public class MainActivity extends Activity {
 		invalidateOptionsMenu();
 		if(audioStorageDir==null){
 			prepareAudioStorageDir();
-			mplayer=new MediaPlayer();
 		}
+		mplayer=new MediaPlayer();
 	}
 	
 	private void setRecitationAudioOff(){
 		isRecitaionAudioOn=false;
-		if(mplayer!=null && mplayer.isPlaying()){
-			mplayer.stop();
+		if(mplayer!=null){
+			if(mplayer.isPlaying()){
+				mplayer.stop();
+			}
+			mplayer.release();
 		}
 		Toast.makeText(this, "Recitation Off", Toast.LENGTH_SHORT).show();
 		invalidateOptionsMenu();

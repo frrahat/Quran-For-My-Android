@@ -10,8 +10,8 @@
         \nOr, simply, \"Surah No.\":\"Ayaah No.\" (Example: 2:182)
         
         \n\n***Searching***
-        \nSearching Mode can be eanabled from the option menu or just by simply pressing long time on the input textfield.\nBut Searching cannot be done when the Primary text is Word By Word Text.
-        \nSearch Operand Text can be selected previously from the Setting.
+        \nSearching Mode can be eanabled from the option menu.\nSearching cannot be done when the Primary text is Word By Word Text.
+        \nSearch Operand Text (The text on which the searching will occur) can be selected previously from the Setting.
         
         \nYou can make ranged search also. To make a search from sura_no. a to sura_no. b, while in search mode, \nEnter [a,b] \'Target Text\'
         \nExample: [1,114] Moon

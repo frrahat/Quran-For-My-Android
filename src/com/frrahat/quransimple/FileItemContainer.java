@@ -21,9 +21,9 @@ import android.util.Log;
 public class FileItemContainer {
 
 	private static ArrayList<FileItem> fileItems;
-	private static String textSotrageDirName = "additTexts";
+	private static String textSotrageDirName = ".additTexts";
 
-	private static String dataStorageFileName = "fileItemData.ser";
+	private static String dataStorageFileName = ".fileItemData.ser";
 	private static File dataStorageFile;
 
 	private static File textStorageDir;

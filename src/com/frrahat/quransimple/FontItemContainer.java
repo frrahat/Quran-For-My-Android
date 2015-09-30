@@ -28,7 +28,7 @@ public class FontItemContainer {
 	
 	private static File fontStorageDir;
 	
-	private static String fontInfoStorageFileName="fontItemData.ser";
+	private static String fontInfoStorageFileName=".fontItemData.ser";
 	private static File fontInfoStorageFile;
 	
 	public final static String Default_Font_File_Name="Default";

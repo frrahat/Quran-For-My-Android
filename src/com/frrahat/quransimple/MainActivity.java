@@ -47,8 +47,8 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity {
 
-	public static String storageFolderName;
-	private final String AudioStorageDirName="QuranForMyAndroid/Audio";
+	public static String storageFolderName="QuranForMyAndroid";
+	private final String AudioStorageDirName="Audio";
 	private File audioStorageDir;
 	
 	private InputMethodManager imm;
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		storageFolderName="."+getApplicationContext().getPackageName();
+		//storageFolderName="."+getApplicationContext().getPackageName();
 		initializeComponents();
 	}
 
@@ -563,10 +563,10 @@ public class MainActivity extends Activity {
 		String state=Environment.getExternalStorageState();
 		// has writable external  storage
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			audioStorageDir = new File(Environment.getExternalStorageDirectory(),AudioStorageDirName);
+			audioStorageDir = new File(Environment.getExternalStorageDirectory(),storageFolderName+"/"+AudioStorageDirName);
 		} else {
 			ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
-			audioStorageDir = contextWrapper.getDir(AudioStorageDirName,
+			audioStorageDir = contextWrapper.getDir(storageFolderName+"/"+AudioStorageDirName,
 					Context.MODE_PRIVATE);
 		}
 		
@@ -597,7 +597,7 @@ public class MainActivity extends Activity {
 			});
 		}
 		catch (IOException e) {
-			Toast.makeText(this,"Audio File Not Found in the folder: "+AudioStorageDirName+" . See HELP for instructions.", Toast.LENGTH_LONG).show();
+			Toast.makeText(this,"Audio File Not Found in the folder: "+storageFolderName+"/"+AudioStorageDirName+" . See HELP for instructions.", Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}
 		catch (IllegalStateException e) {

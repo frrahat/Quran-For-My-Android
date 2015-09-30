@@ -17,7 +17,7 @@ public class BookmarkItemContainer {
 
 	private static ArrayList<BookmarkItem> bookmarkItems;
 
-	private static String dataStorageFileName = "bookmarkItemData.ser";
+	private static String dataStorageFileName = ".bookmarkItemData.ser";
 	private static File dataStorageFile;
 
 	// will be called only once

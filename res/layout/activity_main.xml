@@ -38,7 +38,7 @@
                 android:inputType="textMultiLine" 
                 android:background="@android:color/background_dark"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textCursorDrawable="@drawable/cursor_color">
+                android:cursorVisible="false">
           		
           		<requestFocus />
             </EditText>

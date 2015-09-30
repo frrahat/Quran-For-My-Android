@@ -17,6 +17,7 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -25,14 +26,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -172,7 +178,7 @@ public class MainActivity extends Activity {
 
 
 		mainText.setFocusable(false);
-		mainText.setLongClickable(false);
+		//mainText.setLongClickable(false);
 		
 		prevButton = (Button) findViewById(R.id.button_prev);
 		nextButton = (Button) findViewById(R.id.button_next);
@@ -208,12 +214,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (CUR_INPUT_COMMAND != null) {
-					CUR_INPUT_COMMAND.proceedToNext();
-				} else {
-					Toast.makeText(getBaseContext(), "No previous input",
-							Toast.LENGTH_SHORT).show();
-				}
+				actionOnNextBtnClick();
 			}
 		});
 		nextButton.setOnLongClickListener(new OnLongClickListener() {
@@ -227,6 +228,15 @@ public class MainActivity extends Activity {
 					Toast.makeText(getBaseContext(), "No previous input",
 							Toast.LENGTH_SHORT).show();
 				}
+				return true;
+			}
+		});
+		
+		mainText.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				actionOnNextBtnClick();
 				return true;
 			}
 		});
@@ -268,7 +278,16 @@ public class MainActivity extends Activity {
 		setSearchModeOff();
 
 	}
-
+	
+	public void actionOnNextBtnClick() {
+		if (CUR_INPUT_COMMAND != null) {
+			CUR_INPUT_COMMAND.proceedToNext();
+		} else {
+			Toast.makeText(getBaseContext(), "No previous input",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	@Override
 	public void onBackPressed() {
 		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
@@ -597,12 +616,12 @@ public class MainActivity extends Activity {
 			});
 		}
 		catch (IOException e) {
-			Toast.makeText(this,"Audio File Not Found in the folder: "+storageFolderName+"/"+AudioStorageDirName+" . See HELP for instructions.", Toast.LENGTH_LONG).show();
-			e.printStackTrace();
+			Toast.makeText(this,"Audio File Not Found in the folder: \""+audioStorageDir.getPath().toString()+"\" . See HELP for instructions.", Toast.LENGTH_LONG).show();
+			//e.printStackTrace();
 		}
 		catch (IllegalStateException e) {
 			Toast.makeText(this, "Illegal State", Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -656,7 +675,7 @@ public class MainActivity extends Activity {
 						try{
 							surahNum=Integer.parseInt(fileName.substring(0,3));//check if it contains all integer digits					
 						}catch(NumberFormatException ne){
-							ne.printStackTrace();
+							//ne.printStackTrace();
 						}
 						
 						if(surahNum>0){
@@ -1087,7 +1106,7 @@ public class MainActivity extends Activity {
 					in = new FileInputStream(FileItemContainer
 							.getFileItem(index-Total_Default_Quran_Texts).getFile());
 				} catch (IOException ie) {
-					ie.printStackTrace();
+					//ie.printStackTrace();
 				}
 				allQuranTexts[index] = new QuranText(in, false);
 			}

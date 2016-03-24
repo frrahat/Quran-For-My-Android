@@ -208,7 +208,7 @@ public class FontItemContainer {
 		
 		String fileName=selectedFontFileNames[textIndex];
 
-		for(int i=0;i<MainActivity.totalDefaultTypefaces;i++){
+		for(int i=0;i<MainActivity.getTotalDefaultTypefaces();i++){
 			if(fileName.equals(MainActivity.getDefaultTypefaceName(i))){
 				return i;
 			}

@@ -64,7 +64,7 @@ public class FontListActivity extends Activity {
 		}
 		
 		infoTextView.setText(Integer.toString(FontItemContainer.getFontItemSize()+
-				MainActivity.totalDefaultTypefaces)+" "
+				MainActivity.getTotalDefaultTypefaces())+" "
 				+ "font file(s) found.\nSelect font for:");
 		
 		textNameView.setText(textName);
@@ -85,12 +85,12 @@ public class FontListActivity extends Activity {
 				}
 				TextView textView1=(TextView) view.findViewById(R.id.text1);
 				//TextView textView2=(TextView) view.findViewById(R.id.text2);
-				if(position<MainActivity.totalDefaultTypefaces){
+				if(position<MainActivity.getTotalDefaultTypefaces()){
 					String fontName=MainActivity.getDefaultTypefaceName(position);
 					textView1.setText(Integer.toString(position+1)+"."+fontName);
 				}
 				else{
-					int p=position-MainActivity.totalDefaultTypefaces;
+					int p=position-MainActivity.getTotalDefaultTypefaces();
 					
 					if(p<FontItemContainer.getFontItemSize()){
 						File fontFile=FontItemContainer.getFontFile(p);
@@ -112,12 +112,12 @@ public class FontListActivity extends Activity {
 			
 			@Override
 			public Object getItem(int position) {
-				if(position<MainActivity.totalDefaultTypefaces){
+				if(position<MainActivity.getTotalDefaultTypefaces()){
 					String fontName=MainActivity.getDefaultTypefaceName(position);
 					return fontName;
 				}
 				else{
-					int p=position-MainActivity.totalDefaultTypefaces;
+					int p=position-MainActivity.getTotalDefaultTypefaces();
 					
 					if(p==FontItemContainer.getFontItemSize()){
 						return "Default";
@@ -130,7 +130,7 @@ public class FontListActivity extends Activity {
 			@Override
 			public int getCount() {
 				return FontItemContainer.getFontItemSize() +
-						MainActivity.totalDefaultTypefaces + 1;
+						MainActivity.getTotalDefaultTypefaces() + 1;
 			}
 		};
 		
@@ -155,8 +155,8 @@ public class FontListActivity extends Activity {
 					final int position, long arg3) {
 				
 				//if on default typefaces or on Default clicked
-				if(position<MainActivity.totalDefaultTypefaces || 
-						position==(MainActivity.totalDefaultTypefaces+
+				if(position<MainActivity.getTotalDefaultTypefaces() || 
+						position==(MainActivity.getTotalDefaultTypefaces()+
 								FontItemContainer.getFontItemSize())){
 					Toast.makeText(FontListActivity.this, 
 							"Cannot be removed.", 
@@ -173,7 +173,7 @@ public class FontListActivity extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								FontItemContainer.removeFile(position-MainActivity.totalDefaultTypefaces);
+								FontItemContainer.removeFile(position-MainActivity.getTotalDefaultTypefaces());
 								updateView();
 							}
 
@@ -234,7 +234,7 @@ public class FontListActivity extends Activity {
 	
 	private void updateView(){
 		infoTextView.setText(Integer.toString(FontItemContainer.getFontItemSize()+
-				MainActivity.totalDefaultTypefaces)+" "
+				MainActivity.getTotalDefaultTypefaces())+" "
 				+ "font file(s) found.");
 		
 		adapter.notifyDataSetChanged();

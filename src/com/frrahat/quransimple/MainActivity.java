@@ -111,9 +111,14 @@ public class MainActivity extends Activity {
 	// private enum Text{Arabic, EngLish, Bengali};
 
 	// for font faces
-	public static final int totalDefaultTypefaces=4;
-	private static Typeface defaultTypefaces[];
-	private static String defaultTypefaceNames[];
+	private static ArrayList<Typeface> defaultTypefaces;
+	private static String defaultTypefaceNames[]=
+		{"jaghb_uni_bold.ttf",
+		"amiri-quran.ttf",
+		"amiri-regular.ttf",
+		"droid_naskh_regular.ttf",
+		"me_quran.ttf",
+		"siyamrupali.ttf"};
 
 	private boolean isInSearchMode;
 	private boolean isRecitaionAudioOn;
@@ -283,13 +288,16 @@ public class MainActivity extends Activity {
 		if (CUR_INPUT_COMMAND != null) {
 			CUR_INPUT_COMMAND.proceedToNext();
 		} else {
-			Toast.makeText(getBaseContext(), "No previous input",
+			Toast.makeText(this, "No previous input.\nSee help for instructions.",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	@Override
 	public void onBackPressed() {
+		if(mplayer!=null && mplayer.isPlaying()){
+			mplayer.stop();
+		}
 		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
 			tryExitApp();
 		else
@@ -316,14 +324,22 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		boolean shouldPlayRecitationVisible=false;
 		if(isRecitaionAudioOn){
-			menu.findItem(R.id.action_recitationAudio).setIcon(R.drawable.ic_volume)
+			menu.findItem(R.id.action_recitationAudio).setIcon(R.drawable.ic_volume_off)
 			.setTitle(R.string.action_recitationAudio_off);
+			
+			shouldPlayRecitationVisible=true;
 		}
 		if(isInSearchMode){
 			menu.findItem(R.id.action_addBookmark).setVisible(false);
 			menu.findItem(R.id.action_showSurahList).setVisible(false);
 			menu.findItem(R.id.action_searchInText).setIcon(R.drawable.ic_clear_search);
+			
+			shouldPlayRecitationVisible=false;
+		}
+		if(shouldPlayRecitationVisible){
+			menu.findItem(R.id.action_playRecitation).setVisible(true);
 		}
 		return true;
 	}
@@ -379,12 +395,27 @@ public class MainActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-
+		
 		if (id == R.id.action_showSurahList) {
 			Intent intent = new Intent(this, SuraListActivity.class);
 			this.startActivityForResult(intent, REQUEST_SURAH_LIST);
 			return true;
-		} 
+		}
+		if (id == R.id.action_playRecitation) {
+			if(CUR_INPUT_COMMAND!=null){
+				if(CUR_INPUT_COMMAND.totalToPrint==1){
+					playAnAyah(CUR_INPUT_COMMAND.ayah);
+				}
+				else if(CUR_INPUT_COMMAND.totalToPrint>1){
+					Toast.makeText(this, "Cannot play multiple ayat",
+							Toast.LENGTH_SHORT).show();
+				}
+			}else{
+				Toast.makeText(this, "No input given.\nSee help for instructions.",
+						Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		}
 		if (id == R.id.action_settings) {
 			this.startActivityForResult(SettingsActivity.start(this),
 					REQUEST_SETTINGS);
@@ -596,17 +627,22 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	private File getMp3File(Ayah ayah){
+		File mp3file=new File(audioStorageDir,Integer.toString(ayah.suraIndex+1)+"/"+
+				Integer.toString(ayah.ayahIndex+1)+".mp3");
+		
+		return mp3file;
+	}
+	
 	private void playAnAyah(Ayah ayah){
 		if(mplayer!=null && mplayer.isPlaying()){
 			mplayer.stop();
 		}
 		mplayer.reset();
-		File mp3file=new File(audioStorageDir,Integer.toString(ayah.suraIndex+1)+"/"+
-				Integer.toString(ayah.ayahIndex+1)+".mp3");	
+		File mp3file=getMp3File(ayah);	
 		
 		try {
 			mplayer.setDataSource(mp3file.getPath());
-			mplayer.prepare();
 			mplayer.setOnPreparedListener(new OnPreparedListener() {
 				
 				@Override
@@ -614,6 +650,7 @@ public class MainActivity extends Activity {
 					mplayer.start();
 				}
 			});
+			mplayer.prepare();
 		}
 		catch (IOException e) {
 			Toast.makeText(this,"Audio File Not Found in the folder: \""+audioStorageDir.getPath().toString()+"\" . See HELP for instructions.", Toast.LENGTH_LONG).show();
@@ -1123,24 +1160,12 @@ public class MainActivity extends Activity {
 
 	private void loadFonts() {
 		
-		defaultTypefaces=new Typeface[totalDefaultTypefaces];
-		defaultTypefaceNames=new String[totalDefaultTypefaces];
-		
-		defaultTypefaces[0] = Typeface.createFromAsset(getAssets(),
-				"fonts/jaghb_uni_bold.ttf");
-		defaultTypefaceNames[0]="jaghbub_uni_bold.ttf";
-
-		defaultTypefaces[1] = Typeface.createFromAsset(
-				getAssets(), "fonts/tahoma.ttf");
-		defaultTypefaceNames[1]="tahoma.ttf";
-		
-		defaultTypefaces[2] = Typeface.createFromAsset(
-				getAssets(), "fonts/droid_naskh_regular.ttf");
-		defaultTypefaceNames[2]="droid_naskh_regular.ttf";
-		
-		defaultTypefaces[3] = Typeface.createFromAsset(
-				getAssets(), "fonts/siyamrupali.ttf");
-		defaultTypefaceNames[3]="siyamrupali.ttf";
+		defaultTypefaces = new ArrayList<>();
+		defaultTypefaces.add(Typeface.DEFAULT);
+		for(int i=1;i<defaultTypefaceNames.length;i++){
+			defaultTypefaces.add(Typeface.createFromAsset(getAssets(),
+				"fonts/"+defaultTypefaceNames[i]));
+		}
 	}
 
 	private static List<WordInformation> getInfoOfWords(Ayah ayah) {
@@ -1428,7 +1453,7 @@ public class MainActivity extends Activity {
 	// TODO, this is a marker for update pref function
 	private void updateFromPrefs() {
 		mainText.setTextSize(Float.parseFloat(sharedPrefs.getString(
-				getString(R.string.key_fontSize), "15")));
+				getString(R.string.key_fontSize), "18")));
 
 		int previousPrimaryIndex = PRIMARY_TEXT_INDEX;
 
@@ -1577,7 +1602,7 @@ public class MainActivity extends Activity {
 		int fontFileIndex=FontItemContainer.getFontFileIndexInAsset(PRIMARY_TEXT_INDEX);
 		
 		if(fontFileIndex!=-1){//file found in asset
-			mainText.setTypeface(defaultTypefaces[fontFileIndex]);
+			mainText.setTypeface(defaultTypefaces.get(fontFileIndex));
 		}
 		else{//file not found in asset
 			fontFileIndex=FontItemContainer.getFontFileIndexInFiles(PRIMARY_TEXT_INDEX);
@@ -1593,12 +1618,15 @@ public class MainActivity extends Activity {
 			}
 		}		
 	}
-
+	
+	public static int getTotalDefaultTypefaces(){
+		return defaultTypefaceNames.length;
+	}
 	public static String getDefaultTypefaceName(int index){
 		return defaultTypefaceNames[index];
 	}
 	public static Typeface getDefaultTypeface(int index){
-		return defaultTypefaces[index];
+		return defaultTypefaces.get(index);
 	}
 	
 	public static Typeface getMainTextTypeface(){

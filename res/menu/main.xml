@@ -10,6 +10,14 @@
         android:title="@string/action_showSurahList"/>
     
     <item
+        android:id="@+id/action_playRecitation"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_menu_play_clip"
+        android:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/action_playRecitation"/>
+    
+    <item
         android:id="@+id/action_searchInText"
         android:orderInCategory="100"
         android:icon="@drawable/ic_ab_search"
@@ -32,7 +40,7 @@
     <item 
         android:id="@+id/action_recitationAudio"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_volume_off"
+        android:icon="@drawable/ic_volume"
         android:showAsAction="ifRoom"
         android:title="@string/action_recitationAudio_on"/>
     

@@ -41,24 +41,24 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		@SuppressWarnings("deprecation")
 		ListPreference listPrefPrimary=(ListPreference) findPreference(getString(R.string.key_primary_text_selection));
-		CharSequence[] oldEntries = listPrefPrimary.getEntries();
+		CharSequence[] defaultEntries = listPrefPrimary.getEntries();
 		
-		int oldItemSize=oldEntries.length;
+		int defaultItemSize=defaultEntries.length;
 		
 		/*oldItemSize=oldItemSize<=MainActivity.Total_Default_Quran_Texts ? 
 				oldItemSize : MainActivity.Total_Default_Quran_Texts;*/
 		
-		int totalItems=oldItemSize+fileItems.size();
+		int totalItems=defaultItemSize+fileItems.size();
 		
 		CharSequence[] newEntries=new CharSequence[totalItems];
 		CharSequence[] entryValues=new CharSequence[totalItems];
 		
-		for(int i=0;i<oldItemSize;i++){
-			newEntries[i]=oldEntries[i];
+		for(int i=0;i<defaultItemSize;i++){
+			newEntries[i]=defaultEntries[i];
 			entryValues[i]=Integer.toString(i);
 			
 		}
-		for(int i=0,j=oldItemSize;i<fileItems.size();i++){
+		for(int i=0,j=defaultItemSize;i<fileItems.size();i++){
 			newEntries[i+j]=fileItems.get(i).getFileAliasName();
 			entryValues[i+j]=Integer.toString(i+j);
 		}
@@ -68,6 +68,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		@SuppressWarnings("deprecation")
 		ListPreference listPrefSecondary=(ListPreference) findPreference(getString(R.string.key_secondary_text_selection));
+		
 		CharSequence[] newEntriesSecondary=newEntries.clone();
 		newEntriesSecondary[0]="No Secondary Text";
 		listPrefSecondary.setEntries(newEntriesSecondary);

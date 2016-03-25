@@ -19,7 +19,7 @@ English translation follows Yusuf Ali's translation of Quran.(collected from htt
 
 Screenshots
 =================
-![](https://github.com/frrahat/Quran-For-My-Android/blob/master/screenShots/start%20screen%20v.1.5.1.png
+![](https://github.com/frrahat/Quran-For-My-Android/blob/master/screenShots/start%20screen%20v.1.5.1.png)
 ![](https://github.com/frrahat/Quran-For-My-Android/blob/master/screenShots/home%20screen%20v1.5.1.png)
 ![](https://github.com/frrahat/Quran-For-My-Android/blob/master/screenShots/word%20by%20word%20text%20v.1.5.1.png)
 ![](https://github.com/frrahat/Quran-For-My-Android/blob/master/screenShots/preffered%20action%20setting%20v1.5.1.png)

@@ -6,8 +6,8 @@
         \n\n***Input method***
         \nYou have to enter verse no. to display the texts.
         \nYou can enter verse no. in these forms:
-        \n\"Surah No.\":\"Start ayaah No.\":\"End ayaah No.\" (Example: 2:182:185)
-        \nOr, simply, \"Surah No.\":\"Ayaah No.\" (Example: 2:182)
+        \n[Surah No.]:[Start ayaah No.]:[End ayaah No.] (Example: 2:182:185)
+        \nOr, simply, [Surah No.]:[Ayaah No.] (Example: 2:182)
         
         \n\n***Searching***
         \nSearching Mode can be eanabled from the option menu.\nSearching cannot be done when the Primary text is Word By Word Text.
@@ -17,12 +17,9 @@
         \nExample: [1,114] Moon
         
         \n\n***Recitation Audio***
-        \nTo listen to the recitation of each ayah, Audio Recitation should have to be Turned On from the option menu and also the audio file of the recitation (in .mp3 format) should have to be in the corresponding Audio folder.
+        \nTo listen to the recitation of each ayah, Audio Recitation should have to be Turned On from the option menu and also the audio file of the recitation (in .mp3 format) should have to be in the \"QuranForMyAndroid\\Audio\" folder.
         \nDownloading new audio file feature is not available in this version. So audio files of ayahs should have to collected from external source (such as: everyayah.com) and put in the \"QuranForMyAndroid\\Audio\" folder through copy-paste operation.
-        \nFor Example suppose you have collected the audio files for surah Ikhlas, those are 112000.mp3,112001.mp3,... ..., 112004.mp3. Now Simply copy this files to the \"QuranForMyAndroid\\Audio\" folder, you are done.    
-        
-        \n\n***Smart Skipping***
-		\nWhen a large number of ayahs are distributed in different pages, some pages can be skipped simply by pressing long the \'next\' or \'prev\' button.\n
+        \nFor Example suppose you have collected the audio files for surah Ikhlas, those are 112000.mp3,112001.mp3,... ..., 112004.mp3. Now Simply copy this files to the \"QuranForMyAndroid\\Audio\" folder, you are done.          
 		
 		\n\n***Additional Texts***
 		\nAdditional Translation Texts can be added also. From options/menu go to \"Additional Texts\" then you can browse through your files and select the target file (of .txt or .zip format). The selected file will be added after it passes the validity check.
@@ -31,6 +28,13 @@
 		\n\n***Fonts***
 		\nDefault font setting might will fail to display some texts perfectly. So, additional font files are required in that case.
 		\nFonts of the different texts can be set manually with \'Set Fonts\' option from the Settings. Note that, selected font is applied only to the selected \'Primary Text\' not the \'Secondary Text\'. So, font that can display both the primary text and the secondary text is the best choice.
+		
+		\n\n***Smart Skipping***
+		\nWhen a large number of ayaat are distributed in different pages, some pages can be skipped simply by pressing the \'next\' or \'prev\' button for longer time.\n
+		
+		\n\n***Alternative to Prev and Next button***
+		\nWhen Recitation Audio is Turned Off volume keys can be used as alternative to \'prev\' and \'next\' button.
+		\nPressing longer on the screen will also work as alternative to the \'next\' button.\n
 		 
 	</string>
 </resources>

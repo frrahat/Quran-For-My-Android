@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <ListPreference
-        android:defaultValue="15"
+        android:defaultValue="18"
         android:dialogTitle="@string/title_fontSize"
         android:entries="@array/array_fontSizeTexts"
         android:entryValues="@array/array_fontSizeTexts"

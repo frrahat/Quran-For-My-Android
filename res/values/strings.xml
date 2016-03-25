@@ -132,9 +132,9 @@
     <string name="summary_prefActionOnStart">Set the action to be performed by the app on start</string>
 
     <string-array name="array_prefActionOnStart">
-        <item>None</item>
-        <item>Show Surah List</item>
         <item>Show a Randomly Picked Ayah</item>
+        <item>Show Surah List</item>
+        <item>None</item>
     </string-array>
     <string-array name="array_valuesActionOnStart">
         <item>0</item>

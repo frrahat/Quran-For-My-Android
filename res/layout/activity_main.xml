@@ -35,7 +35,7 @@
     			android:paddingRight="@dimen/activity_horizontal_margin"
                 android:ems="10"
                 android:gravity="top"
-                android:inputType="textMultiLine" 
+                android:inputType="textMultiLine|textNoSuggestions" 
                 android:background="@android:color/background_dark"
                 android:textColor="@android:color/holo_orange_dark"
                 android:cursorVisible="false">

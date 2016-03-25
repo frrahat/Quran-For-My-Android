@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.AsyncTask;
@@ -129,10 +130,10 @@ public class MainActivity extends Activity {
 	private final int REQUEST_SURAH_LIST = 1;
 	private final int REQUEST_BookmarksDisplay=2;
 	
-	
-	private final int ActionOnStartNone=0;
+	//According to the array_prefActionOnStart
+	private final int ActionOnStartRandomAyah=0;
 	private final int ActionOnStartSurahList=1;
-	private final int ActionOnStartRandomAyah=2;
+	private final int ActionOnStartNone=2;
 	
 	private boolean showARandomAyah;
 
@@ -143,6 +144,9 @@ public class MainActivity extends Activity {
 		
 		//storageFolderName="."+getApplicationContext().getPackageName();
 		initializeComponents();
+		
+		//the volume key button is to concentrate on media volume up down when not overriden
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	}
 
 
@@ -192,12 +196,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				if (CUR_INPUT_COMMAND != null) {
-					CUR_INPUT_COMMAND.proceedToPrev();
-				} else {
-					Toast.makeText(getBaseContext(), "No previous input",
-							Toast.LENGTH_SHORT).show();
-				}
+				actionOnPrevButtonClick();
 			}
 		});
 		prevButton.setOnLongClickListener(new OnLongClickListener() {
@@ -284,7 +283,16 @@ public class MainActivity extends Activity {
 
 	}
 	
-	public void actionOnNextBtnClick() {
+	private void actionOnPrevButtonClick() {
+		if (CUR_INPUT_COMMAND != null) {
+			CUR_INPUT_COMMAND.proceedToPrev();
+		} else {
+			Toast.makeText(getBaseContext(), "No previous input",
+					Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	private void actionOnNextBtnClick() {
 		if (CUR_INPUT_COMMAND != null) {
 			CUR_INPUT_COMMAND.proceedToNext();
 		} else {
@@ -295,8 +303,11 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		if(mplayer!=null && mplayer.isPlaying()){
-			mplayer.stop();
+		if(mplayer!=null){
+			try{
+				if(mplayer.isPlaying())
+					mplayer.stop();
+			}catch(IllegalStateException se){}
 		}
 		if (sharedPrefs.getBoolean(getString(R.string.key_confirmExit), true))
 			tryExitApp();
@@ -407,7 +418,7 @@ public class MainActivity extends Activity {
 					playAnAyah(CUR_INPUT_COMMAND.ayah);
 				}
 				else if(CUR_INPUT_COMMAND.totalToPrint>1){
-					Toast.makeText(this, "Cannot play multiple ayat",
+					Toast.makeText(this, "Cannot play multiple ayaat",
 							Toast.LENGTH_SHORT).show();
 				}
 			}else{
@@ -492,6 +503,29 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if(isRecitaionAudioOn){
+			return super.dispatchKeyEvent(event);
+		}
+		int action = event.getAction();
+		int keyCode = event.getKeyCode();
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_VOLUME_UP:
+			if (action == KeyEvent.ACTION_DOWN) {
+				actionOnNextBtnClick();
+			}
+			return true;
+		case KeyEvent.KEYCODE_VOLUME_DOWN:
+			if (action == KeyEvent.ACTION_DOWN) {
+				actionOnPrevButtonClick();
+			}
+			return true;
+		default:
+			return super.dispatchKeyEvent(event);
+		}
+	}
+	
 	private InputCommand processInput(String input) {
 		input = input.trim();
 		if (isInSearchMode) {
@@ -635,8 +669,11 @@ public class MainActivity extends Activity {
 	}
 	
 	private void playAnAyah(Ayah ayah){
-		if(mplayer!=null && mplayer.isPlaying()){
-			mplayer.stop();
+		if(mplayer!=null){
+			try{
+				if(mplayer.isPlaying())
+					mplayer.stop();
+			}catch(IllegalStateException se){}
 		}
 		mplayer.reset();
 		File mp3file=getMp3File(ayah);	
@@ -1439,15 +1476,34 @@ public class MainActivity extends Activity {
 			super.onPostExecute(result);
 			progressDialog.dismiss();
 			updateTextInfo();
-			
-			if(primaryText!=null && showARandomAyah){
-				CUR_INPUT_COMMAND = new InputCommand(getARandomAyah(), 1);
-				mainText.setText("");
-				printSingleAyah(CUR_INPUT_COMMAND.ayah);
-
-				showARandomAyah=false;
-			}
+			tryPrintARandomAyah();
 		}
+	}
+	
+	private synchronized void tryPrintARandomAyah(){
+		if(!showARandomAyah){
+			notify();
+			return;
+		}
+		if(SECONDARY_TEXT_INDEX != Word_Info_Index){//secondaryIndex in not none
+			if(secondaryText==null){//secondaryText is not loaded yet
+				notify();
+				return;
+			}
+			//else (secondary text loaded), go to next
+		}
+		//secondary text already loaded or it is none
+		if(primaryText!=null || (PRIMARY_TEXT_INDEX==Word_Info_Index &&
+				WordInfoLoader.isLoadingCompleted)){
+			
+			CUR_INPUT_COMMAND = new InputCommand(getARandomAyah(), 1);
+			mainText.setText("");
+			
+			printSingleAyah(CUR_INPUT_COMMAND.ayah);	
+			
+			showARandomAyah=false;
+		}
+		notify();
 	}
 	
 	// TODO, this is a marker for update pref function
@@ -1457,7 +1513,7 @@ public class MainActivity extends Activity {
 
 		int previousPrimaryIndex = PRIMARY_TEXT_INDEX;
 
-		updatePrimaryTextIndex();
+		updatePrimaryTextIndex();//but not loaded
 
 		if (previousPrimaryIndex == Word_Info_Index
 				&& previousPrimaryIndex != PRIMARY_TEXT_INDEX) {
@@ -1466,8 +1522,9 @@ public class MainActivity extends Activity {
 			System.gc();
 		}
 		
-		updateSecondaryTextIndex();
-
+		updateSecondaryTextIndex();// and loaded in case
+		//So, secondartyText is initialized first
+		
 		MAX_SEARCH_COUNT = Integer.parseInt(sharedPrefs.getString(
 				getString(R.string.key_maxSearchCount), "5000"));
 
@@ -1567,7 +1624,7 @@ public class MainActivity extends Activity {
 	
 	private void updateTextInfo(){
 		primaryText = allQuranTexts[PRIMARY_TEXT_INDEX];
-		if (SECONDARY_TEXT_INDEX != Word_Info_Index)
+		if (SECONDARY_TEXT_INDEX != Word_Info_Index)// Secondary_TEXT_INDEX != <None>
 			secondaryText = allQuranTexts[SECONDARY_TEXT_INDEX];
 		else
 			secondaryText = null;
@@ -1658,7 +1715,7 @@ public class MainActivity extends Activity {
 	
 	private void executeOnStartActions(){
 		int actionIndexOnStart=Integer.parseInt(sharedPrefs.getString(getString(R.string.key_prefActionOnStart),
-				Integer.toString(ActionOnStartNone)));
+				Integer.toString(ActionOnStartRandomAyah)));
 		
 		if(actionIndexOnStart==ActionOnStartNone){
 			return;

@@ -15,6 +15,14 @@ public class WordInformation{
 	public String transliteration;
 	public String meaning;
 	
+	
+	public WordInformation(String wordId, String transliteration, String meaning) {
+		this.wordId = wordId;
+		this.transliteration = transliteration;
+		this.meaning = meaning;
+	}
+
+
 	@Override
 	public String toString() {
 		return    "\nwordId=" + wordId

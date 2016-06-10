@@ -27,7 +27,7 @@
 		
 		\n\n***Fonts***
 		\nDefault font setting might will fail to display some texts perfectly. So, additional font files are required in that case.
-		\nFonts of the different texts can be set manually with \'Set Fonts\' option from the Settings. Note that, selected font is applied only to the selected \'Primary Text\' not the \'Secondary Text\'. So, font that can display both the primary text and the secondary text is the best choice.
+		\nFonts of the different texts can be set manually with \'Set Fonts\' option from the Settings. Note that, the selected font is applied both to the selected \'Primary Text\' and the \'Secondary Text\'. So, font that can display both the primary text and the secondary text is the best choice.
 		
 		\n\n***Smart Skipping***
 		\nWhen a large number of ayaat are distributed in different pages, some pages can be skipped simply by pressing the \'next\' or \'prev\' button for longer time.\n

@@ -50,24 +50,24 @@ public class WordInfoLoader {
 			reader=new BufferedReader(new InputStreamReader(inStream,"utf-8"));
 			String text;
 			WordInformation tempInfo=null;
+			int fieldsCovered=0;
+			String fields[]=new String[3];
 			while((text=reader.readLine())!=null)
 			{
-				if(text.startsWith("id"))
-				{
-					//first element of a wordinfo found
-					tempInfo=new WordInformation();
-					tempInfo.wordId=text.substring(text.indexOf('=')+1);
-				}
-				else if(text.startsWith("tr"))
-				{
-					tempInfo.transliteration=text.substring(text.indexOf('=')+1);
-				}
-				else if(text.startsWith("me"))
-				{
-					tempInfo.meaning=text.substring(text.indexOf('=')+1);
-					//last element of a word info found
-					infoWords.add(tempInfo);
-				}		
+				if(text.startsWith("#"))
+					continue;
+				
+				else{
+					fields[fieldsCovered]=text;
+					fieldsCovered++;
+					if(fieldsCovered==3){
+						infoWords.add(new WordInformation(fields[0],//wordId
+										fields[1],//transliteration
+										fields[2]));//meanings
+						
+						fieldsCovered=0;
+					}
+				}	
 			}
 			
 			reader.close();

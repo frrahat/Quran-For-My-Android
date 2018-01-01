@@ -60,7 +60,7 @@ public class FileItemContainer {
 		boolean loadingSuccess=false;
 		dataStorageFile = new File(storageDir, dataStorageFileName);
 
-		if (dataStorageFile != null || dataStorageFile.exists()) {
+		if (dataStorageFile != null && dataStorageFile.exists()) {
 			loadingSuccess=loadFromFile(dataStorageFile);
 		} else {
 			Log.i("ERROR!", "dataStorageFile is null or couldn't be found");

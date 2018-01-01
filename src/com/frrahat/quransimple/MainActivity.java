@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
 	 */
 
 	//resourceIDs[0] never used, like QuranText[0]
-	private int[] resourceIDs = { -1,R.raw.quran_uthmani, R.raw.en_yusufali};
+	private int[] resourceIDs = { -1,R.raw.quran_uthmani, R.raw.en_hilali_khan};
 
 	private final static int Word_Info_Index = 0;
 	private final static int Arabic_Text_Index = 1;
@@ -1109,38 +1109,6 @@ public class MainActivity extends Activity {
 	private void hideSoftKeyBoard() {
 		imm.hideSoftInputFromWindow(commandText.getWindowToken(), 0);
 	}
-
-	/*
-	 * private void loadAllFiles() {
-	 * 
-	 * //load text files--------------------------------------
-	 * Log.i("init","loading files");
-	 * 
-	 * final Context context=getBaseContext(); //arabic text
-	 * 
-	 * Runnable quranTextLoader= new Runnable() {
-	 * 
-	 * @Override public void run() { allQuranTexts[0]=new
-	 * QuranText(context,R.raw.quran_uthmani,true); } }; Thread qTextThread=new
-	 * Thread(quranTextLoader);
-	 * 
-	 * //english translation text Runnable englishTextLoader = new Runnable() {
-	 * 
-	 * @Override public void run() { allQuranTexts[1]=new
-	 * QuranText(context,R.raw.en_yusufali,false); } }; Thread eTextThread=new
-	 * Thread(englishTextLoader);
-	 * 
-	 * //bengali translation text Runnable bengaliTextLoader = new Runnable() {
-	 * 
-	 * @Override public void run() { allQuranTexts[2]=new
-	 * QuranText(context,R.raw.bn_bengali,false); } }; Thread bTextThread=new
-	 * Thread(bengaliTextLoader);
-	 * 
-	 * //publishToLog("Loading Files...\n"); qTextThread.start();
-	 * eTextThread.start(); bTextThread.start(); //loading Sura Information
-	 * //SuraInformation
-	 * .loadSuraInformations(getBaseContext(),R.raw.sura_information); }
-	 */
 
 	private void loadTextFile(int index) {
 		if (index == Word_Info_Index)// wordInfo

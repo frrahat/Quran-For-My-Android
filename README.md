@@ -9,7 +9,7 @@ This was intended to be used for learning the translations of 'Quranic words' An
 
 All word by word transliteration, meanings were collected from <b>http://corpus.quran.com/wordbyword.jsp</b> which is "an annotated linguistic resource which shows the Arabic grammar, syntax and morphology for each word in the Holy Quran."
 
-English translation follows Yusuf Ali's translation of Quran.(collected from http://zekr.org)
+English translation follows the translation by Muhammad Taqi-ud-Din al-Hilali and Muhammad Muhsin Khan (collected from http://tanzil.net/trans/)
 
 <b>Arabic quran text</b> is from <b>http://tanzil.net</b> and distributed under the terms of a Creative Commons Attribution 3.0 License.
 - Permission is granted to copy and distribute verbatim copies of this text, <b>but CHANGING IT IS NOT ALLOWED</b>.

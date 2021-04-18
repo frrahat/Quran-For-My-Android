@@ -1,3 +1,9 @@
+### NOTE: This repository is archived
+This is a very simple app initially developed targetting very lightweight android phones in mind. Now as our smartphones got lot more advanced, large and coplex apps are no longer a problem. Now we can easily switch to better Quran apps with enriched quality and features available in the market.
+
+For better alternatives to this app refer to [this issue](https://github.com/frrahat/Quran-For-My-Android/issues/20)
+
+
 # Quran-For-My-Android
 
 
